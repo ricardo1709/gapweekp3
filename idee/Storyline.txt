@@ -1,0 +1,153 @@
+Dit word een super verhaal
+--------------------------------------------------------------------------------------------
+
+Genre: puzzlegame
+locatie: oude enge maya tempel 
+Speler: Eigen keus
+Titel: Riddle temple
+Typing effect
+
+
+
+Welcome to The Puzzle temple!
+You are a treasure hunter and your name is....
+(enter name)
+
+
+You are on a journey to find a chest of the magic strawberries.
+You have entered a maya temple.
+
+
+Starting room
+--------------------------------------------------------------------------------------------
+
+You walk into a big empty room with three doors.
+Witch one do you choose....
+(1. Door one is a smaller door and it looks really dark behind it)
+(2. Door two is a big door with a lot of spider webs)
+(3. Door three is closed... Is it locked?)
+
+
+Door 1
+----------------------------------------------------------------------------------------------
+You walk through the door.
+It is so dark that you can't see anyting.
+You have a backpack with some supplies...
+What will you do?
+
+(1. Stop and try to find a flashlight)
+(2. Turn around and go back)-Go back to the starting room
+
+
+You come into another room.
+There is one door.
+What will you do?
+
+(1. Open the door)
+(2. go back)-Go back to the starting room
+
+
+Shit the door is locked!
+you need a key to open it.
+you can search the key
+Where are you gonna search?
+
+(1. Search behind a pile of rocks)-You find nothing
+(2. Search in some holes in the wall)-You step on a presure plate and a secret door opens
+(3. Search in some hanging vines)-You find nothing
+
+
+
+Door two
+----------------------------------------------------------------------------------------
+This door is coverd with spiderwebs.
+It looks creepy.
+You come into a giant room
+The door shuts behind you!
+Your trapped!!!!
+
+You look around for a way out.
+On the ground you see a piece of paper.
+It has a riddle on it!
+
+"What do spiders in Silicon Valley want to be when they grow up?"
+(answer Web designers)
+
+There is some text on the back of the paper but it is faded.
+It sais Answ.r = ... desig....
+
+What do you answer on the riddle????
+
+-Correct-
+A door opens- Go to Secret door
+
+-Incorrect-
+Some rocks fell down on you
+You lost a life
+try again
+
+
+Door three
+---------------------------------------------------------------------------------------
+You try to open the door but it is locked.
+Try an other door- Go to Starting room
+
+
+
+
+Secret door 
+----------------------------------------------------------------------------------------
+
+You walk into a smal room with three doors.
+There is something written on the wall.
+
+It is a riddle!!!!
+
+"I have an eye but cannot see. I am fast but I have no limbs. What am I?"
+
+(answer A hurricane)
+
+
+-Correct-
+One door opens
+
+-Incorrect-
+Spikes shot out of the wall..
+you dodged the spikes but one of them slightly hit you
+You lost a life
+
+The trap resets
+Try again!
+
+
+
+Room 1
+---------------------------------------------------------------------------------------
+You come into a room wich has a riddle to!
+
+"We see it once in a year, twice in a week but never in a day. What is it?"
+
+(answer E)
+
+
+-Correct-
+Two doors open
+Wich one do you choose?
+(Door A)-Door A
+(Door B)-Door B
+
+-Incorrect-
+Arrows shot at you
+You blocked some of them but you lost a life
+Try again
+
+
+Door A
+-----------------------------------------------------------------------------------------
+
+
+
+
+
+
+
