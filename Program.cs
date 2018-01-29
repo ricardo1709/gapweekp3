@@ -84,19 +84,19 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-            Console.WriteLine("Welcome to the world of Flightwood");
-            Console.WriteLine("You just woke up from a very long sleep.");
-            Console.WriteLine("You can't really remember anything but your name.");
-            Console.WriteLine("Which by the way is {0}", player.GetName());
-            
+            Program.PrintLine("Welcome to the world of Flightwood", 100);
+            Program.PrintLine("You just woke up from a very long sleep.", 100);
+            Program.PrintLine("You can't really remember anything but your name.", 100);
+            Program.PrintLine("Which by the way is ", 100, false);
+            Program.PrintLine(player.GetName(), 10);
             // Added newline to improve readability.
             Console.WriteLine();
 
             player.ShowInventory();
-            Console.WriteLine("You look around you and realise that you are in a forest.");
-            Console.WriteLine("In the distance you hear the howl of an animal.");
-            Console.WriteLine("You slowly come to your senses and choose to go.");
-            Console.WriteLine("Press a key to continue..");
+            Program.PrintLine("You look around you and realise that you are in a forest.", 100);
+            Program.PrintLine("In the distance you hear the howl of an animal.", 100);
+            Program.PrintLine("You slowly come to your senses and choose to go.", 100);
+            Program.PrintLine("Press a key to continue..", 100);
             Console.ReadKey();
         }
 
@@ -229,10 +229,12 @@ namespace TextAdventureCS
             {
                 Console.Write(c);
                 Stopwatch s = new Stopwatch();
+                s.Start();
                 do
                 {
 
-                } while (s.ElapsedMilliseconds >= timemilli);
+                } while (s.Elapsed < TimeSpan.FromMilliseconds(timemilli));
+                s.Reset();
             }
 
             if (endNewLine)
