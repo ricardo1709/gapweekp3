@@ -34,6 +34,15 @@ namespace TextAdventureCS
             }
         }
 
+        public void UseItem(string itemName)
+        {
+            if (HasObject(itemName))
+            {
+                inventory.Remove(itemName);
+                Program.PrintLine(string.Format("{0} has been used.\n{0} is removed from your inventory", itemName), 75);
+            }
+        }
+
         public void PickupItem(Objects obj)
         {
             // Add an if-statement here when you want to have a maximum number of items

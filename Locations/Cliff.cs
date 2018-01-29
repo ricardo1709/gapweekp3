@@ -8,7 +8,7 @@ namespace TextAdventureCS
     class Cliff : Location
     {
         public Cliff(string name)
-            : base(name)
+            : base(name, null)
         {
         }
 
