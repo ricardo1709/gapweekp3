@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -214,6 +215,31 @@ namespace TextAdventureCS
             Console.WriteLine("Thank you for playing and have a nice day!");
             Console.WriteLine("Press a key to exit...");
             Console.ReadKey();
+        }
+
+        public static void PrintLine(string msg, int timemilli)
+        {
+            PrintLine(msg, timemilli, true);
+        }
+
+        public static void PrintLine(string msg, int timemilli, bool endNewLine)
+        {
+            Console.CursorVisible = true;
+            foreach (char c in msg)
+            {
+                Console.Write(c);
+                Stopwatch s = new Stopwatch();
+                do
+                {
+
+                } while (s.ElapsedMilliseconds >= timemilli);
+            }
+
+            if (endNewLine)
+            {
+                Console.Write("\n");
+            }
+            Console.CursorVisible = false;
         }
     }
 }
