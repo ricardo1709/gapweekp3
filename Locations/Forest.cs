@@ -20,7 +20,7 @@ namespace TextAdventureCS
         public override void Description()
         {
             // Insert a nice description
-            Console.WriteLine("You are standing in a forrest");
+            Program.PrintLine( 100, "You are standing in a forrest");
         }
     }
 }

@@ -20,16 +20,16 @@ namespace TextAdventureCS
             if (HasObject(itemName))
             {
                 inventory.Remove(itemName);
-                Console.WriteLine("{0} is removed from your inventory",itemName);
+                Program.PrintLine( 100,string.Format("{0} is removed from your inventory",itemName));
                 ShowInventory();
-                Console.WriteLine("Press a key to continue..");
+                Program.PrintLine( 50,"Press a key to continue..");
                 Console.ReadKey();
             }
             else
             {
-                Console.WriteLine("Your inventory does not contain an item");
-                Console.WriteLine("with the name {0}. Please try again.", itemName);
-                Console.WriteLine("Press a key to continue..");
+                Program.PrintLine( 100, "Your inventory does not contain an item");
+                Program.PrintLine( 100,"with the name {0}. Please try again.", itemName);
+                Program.PrintLine( 50,"Press a key to continue..");
                 Console.ReadKey();
             }
         }
@@ -39,7 +39,7 @@ namespace TextAdventureCS
             if (HasObject(itemName))
             {
                 inventory.Remove(itemName);
-                Program.PrintLine(string.Format("{0} has been used.\n{0} is removed from your inventory", itemName), 75);
+                Program.PrintLine  (75,string.Format("{0} has been used.\n{0} is removed from your inventory", itemName));
             }
         }
 
@@ -52,13 +52,13 @@ namespace TextAdventureCS
 
         public void ShowInventory()
         {
-            Console.WriteLine("There are {0} item(s) in your inventory.", (int)inventory.Count());
+            Program.PrintLine( 100, "There are {0} item(s) in your inventory.",inventory.Count());
             if (inventory.Count() > 0)
             {
-                Console.WriteLine("These are:");
+                Program.PrintLine( 100,"These are:");
                 foreach (var item in inventory)
                 {
-                    Console.WriteLine(item.Value);
+                    Program.PrintLine(50, item.Value.GetName());
                 }
             }
         }
@@ -76,36 +76,36 @@ namespace TextAdventureCS
             if (health - damage < 0)
             {
                 Console.Clear();
-                Console.WriteLine("You took too much damage. You fall to the ground.");
-                Console.WriteLine("As you move towards the light, the last thing going through");
-                Console.WriteLine("your mind is: 'This was a great adventure. Too bad it had");
-                Console.WriteLine("to end like this.' And then it is all over...");
-                Console.WriteLine("Press a key to continu...");
+                Program.PrintLine( 100,"You took too much damage. You fall to the ground.");
+                Program.PrintLine( 100,"As you move towards the light, the last thing going through");
+                Program.PrintLine( 100,"your mind is: 'This was a great adventure. Too bad it had");
+                Program.PrintLine( 100,"to end like this.' And then it is all over...");
+                Program.PrintLine ( 50,"Press a key to continue...");
                 Console.ReadKey();
             }
             else
             {
                 health -= damage;
                 Console.Clear();
-                Console.WriteLine("You took {0} points of damage.", damage);
-                Console.WriteLine("You now have {0} HP left.", health);
+                Program.PrintLine( 80,  "You took {0} points of damage.", damage);
+                Program.PrintLine( 80,  "You now have {0} HP left.", health);
 
                 if (health < (maxHealth >> 2))
                 {
-                    Console.WriteLine("You took some serious hits and you are bleeding.");
-                    Console.WriteLine("You start to feel weak and desperately need some");
-                    Console.WriteLine("medical attention.");
+                    Program.PrintLine( 100,"You took some serious hits and you are bleeding.");
+                    Program.PrintLine( 100, "You start to feel weak and desperately need some");
+                    Program.PrintLine( 100, "medical attention.");
                 }
                 else if (health < (maxHealth >> 1))
                 {
-                    Console.WriteLine("You took some hits. You have some scratches and some cuts.");
-                    Console.WriteLine("Your body starts to ache and you have to be careful.");
+                    Program.PrintLine( 100, "You took some hits. You have some scratches and some cuts.");
+                    Program.PrintLine( 100, "Your body starts to ache and you have to be careful.");
                 }
                 else if (health < (maxHealth - (maxHealth >> 2)))
                 {
-                    Console.WriteLine("You have a few scratches, nothing to worry about yet.");
+                    Program.PrintLine( 100,"You have a few scratches, nothing to worry about yet.");
                 }
-                Console.WriteLine("Press a key to continue");
+                Program.PrintLine  (50,"Press a key to continue");
                 Console.ReadKey();
             }
         }

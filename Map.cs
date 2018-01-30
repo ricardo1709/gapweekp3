@@ -43,8 +43,8 @@ namespace TextAdventureCS
             else
             {
                 Console.Clear();
-                Console.WriteLine("Error: Position is outside the map");
-                Console.WriteLine("Press a key to continue...");
+                Program.PrintLine( 50,"Error: Position is outside the map");
+                Program.PrintLine( 50,"Press a key to continue...");
                 Console.ReadKey();
             }
         }
@@ -71,7 +71,7 @@ namespace TextAdventureCS
                     pos.Xposition -= 1;
                     break;
                 default:
-                    Console.WriteLine("Move() has broken down.");
+                    Program.PrintLine(100,"Move() has broken down.");
                     break;
             }
         }
