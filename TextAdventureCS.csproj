@@ -44,7 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor.cs" />
+    <Compile Include="Actors\Investigator.cs" />
+    <Compile Include="Blockades\Door.cs" />
+    <Compile Include="Blockades\None.cs" />
+    <Compile Include="Items\Key.cs" />
+    <Compile Include="Locations\TempleRoom.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="Blockades\Wall.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="Blockade.cs" />
     <Compile Include="Locations\Church.cs" />
     <Compile Include="Locations\Cliff.cs" />
     <Compile Include="Locations\Forest.cs" />
@@ -56,9 +64,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Actors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
