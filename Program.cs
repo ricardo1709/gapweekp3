@@ -53,8 +53,9 @@ namespace TextAdventureCS
             int xstartpos = 0;
             int ystartpos = 0;
             // Welcome the player
-            Console.WriteLine("Welcome to a textbased adventure");
-            Console.WriteLine("Before you can start your journey, you will have to enter your name.");
+          
+            Program.PrintLine( 100, "Welcome to a textbased adventure");
+            Program.PrintLine( 100, "Before you can start your journey, you will have to enter your name.");
 
             string name = null;
             string input = null;
@@ -65,12 +66,12 @@ namespace TextAdventureCS
             {
                 if( input == null || input == "N" )
                 {
-                    Console.WriteLine("Please enter your name and press enter:");
+                    Program.PrintLine(100, "Please enter your name and press enter:");
                     name = Console.ReadLine();
                 }
 
-                Console.WriteLine("Your name is {0}",name);
-                Console.WriteLine("Is this correct? (y/n)");
+                Program.PrintLine  (100,"Your name is {0}",name);
+                Program.PrintLine( 100, "Is this correct? (y/n)");
                 input = Console.ReadLine();
                 input = input.ToUpper();
             }           
@@ -94,19 +95,22 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-            Program.PrintLine("Welcome to the world of Flightwood", 100);
-            Program.PrintLine("You just woke up from a very long sleep.", 100);
-            Program.PrintLine("You can't really remember anything but your name. test is leak om te doen", 100);
+            Program.PrintLine( 100, "Welcome to the world of Flightwood");
+            Program.PrintLine( 100, "You just woke up from a very long sleep.");
+            Program.PrintLine( 100, "You can't really remember anything but your name.");
             Program.PrintLine("Which by the way is ", 100, false, 0, 64);
-            Program.PrintLine(player.GetName(), 10);
+            Program.PrintLine(10, player.GetName());
+
             // Added newline to improve readability.
-            Console.WriteLine();
+            Console.ReadKey();
 
             player.ShowInventory();
-            Program.PrintLine("You look around you and realise that you are in a forest.", 100);
-            Program.PrintLine("In the distance you hear the howl of an animal.", 100);
-            Program.PrintLine("You slowly come to your senses and choose to go.", 100);
-            Program.PrintLine("Press a key to continue..", 100);
+
+            Program.PrintLine( 100, "You look around you and realise that you are in a forest.");
+            Program.PrintLine( 100, "In the distance you hear the howl of an animal.");
+            Program.PrintLine( 100, "You slowly come to your senses and choose to go.");
+            Program.PrintLine( 100, "Press a key to continue..");
+
             Console.ReadKey();
         }
 
@@ -243,9 +247,9 @@ namespace TextAdventureCS
             {
                 for (int i = 0; i < menu.Count(); i++)
                 {
-                    Console.WriteLine("{0} - {1}", i + 1, menu[i]);
+                    Program.PrintLine( 100,"{0} - {1}", i + 1, menu[i]);
                 }
-                Console.WriteLine("Please enter your choice: 1 - {0}", menu.Count());
+                Program.PrintLine( 50,"Please enter your choice: 1 - {0}" ,menu.Count());
                 input = Console.ReadLine();
             } while (!int.TryParse(input, out choice) || (choice > menu.Count() || choice < 0));
 
@@ -283,14 +287,14 @@ namespace TextAdventureCS
         static void Quit()
         {
             Console.Clear();
-            Program.PrintLine("Thank you for playing and have a nice day!", 75);
+            Console.WriteLine("Thank you for playing and have a nice day!");
             Console.WriteLine("Press a key to exit...");
             Console.ReadKey();
         }
 
-        public static void PrintLine(string msg, int timemilli)
+        public static void PrintLine(int timemilli, string msg, params object[] par)
         {
-            PrintLine(msg, timemilli, true, 0, 64);
+            PrintLine(string.Format(msg, par), timemilli, true, 0, 64);
         }
 
         public static void PrintLine(string msg, int timemilli, bool endNewLine, int startPosX, int endPosX)
