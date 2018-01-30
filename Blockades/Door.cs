@@ -15,9 +15,19 @@ namespace TextAdventureCS.Blockades
 
         }
 
+        public override bool CanGetDiscription()
+        {
+            return true;
+        }
+
         public override bool CanPlayerInteraction()
         {
             return this.isSolid;
+        }
+
+        public override string GetDiscription(ref Map map)
+        {
+            return (
         }
 
         public override void OnPlayerInteraction(ref Player player, ref Map map)

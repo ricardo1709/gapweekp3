@@ -79,8 +79,9 @@ namespace TextAdventureCS
             // Make the player
             Player player = new Player(name, 100);
             //Welcome the player
-            Welcome(ref player);
-
+            #if !DEBUG
+                Welcome(ref player);
+            #endif
             // Initialize the map
             Map map = new Map(mapwidth, mapheight, xstartpos, ystartpos);
             // Put the locations with their items on the map
@@ -94,7 +95,6 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-
             Program.PrintLine( 100, "Welcome to the world of Flightwood");
             Program.PrintLine( 100, "You just woke up from a very long sleep.");
             Program.PrintLine( 100, "You can't really remember anything but your name.");
@@ -126,10 +126,11 @@ namespace TextAdventureCS
             Swamp swamp = new Swamp("Bog");
             map.AddLocation(swamp, 0, 1);*/
 
-            Room room = new Room("start", 3, 3);
+            Room room = new Room("Starting room", 3, 3);
             room.SetEnclosed(true);
             room.SetBlockage(new Door("door 1", true, 2), 1, 2);
             room.AddItem(new Key("door 1", true), 1, 1);
+            room.SetDiscription(". {0} You walk into a big empty room with three doors.\nWitch one do you choose....");
             room.AddLocations(ref map, 0, 0);
 
             room = new Room("hall", 5, 3);
@@ -137,12 +138,16 @@ namespace TextAdventureCS
             room.SetBlockage(new Door("door 1", true, 0), 1, 0);
             room.SetBlockage(new Door("door 2", true, 2), 1, 2);
             room.AddItem(new Key("door 2", true), 2, 2);
+            room.SetDiscription(". {0} this is the startings room\n");
             room.AddLocations(ref map, 0, 3);
 
             room = new Room("end", 3, 3);
             room.SetEnclosed(true);
             room.SetBlockage(new Door("door 2", true, 2), 1, 0);
-            room.AddLocations(ref map, 0, 8);
+            room.SetDiscription(". {0} this is the startings room\n");
+            room.AddLocations(ref map, 0, 6);
+
+            map.SetRoom(" ");
         }
 
         static void Start(ref Map map, ref Player player)
@@ -155,7 +160,7 @@ namespace TextAdventureCS
             {
                  
                 Console.Clear();
-                map.GetLocation().Description();
+                map.GetLocation().Description(ref map);
                 choice = ShowMenu(map, ref menuItems);
 
                 if ( choice != menuItems.Count() )
@@ -282,8 +287,8 @@ namespace TextAdventureCS
         static void Quit()
         {
             Console.Clear();
-            Program.PrintLine( 100, "Thank you for playing and have a nice day!");
-            Program.PrintLine( 100,"Press a key to exit...");
+            Console.WriteLine("Thank you for playing and have a nice day!");
+            Console.WriteLine("Press a key to exit...");
             Console.ReadKey();
         }
 
@@ -295,23 +300,43 @@ namespace TextAdventureCS
         public static void PrintLine(string msg, int timemilli, bool endNewLine, int startPosX, int endPosX)
         {
             Console.CursorVisible = true;
-            foreach (char c in msg)
+            string[] words = msg.Split(' ');
+            for (int i=0;i<words.Count(); i++)
             {
-                DateTime time = System.DateTime.Now;
-                if (Console.CursorLeft  == endPosX)
+                if (Console.CursorLeft + 1 + words[i].Count()  >= endPosX)
                 {
                     Console.CursorLeft = startPosX;
                     Console.CursorTop = Console.CursorTop + 1;
-                } 
-                Console.Write(c);
-
-
-                int end = System.DateTime.Now.Millisecond - time.Millisecond;
-                if (timemilli - end > 0){
-                    System.Threading.Thread.Sleep((int)(timemilli - end));
                 }
-            }
+                else
+                {
+                    if (i != words.Count() && i != 0)
+                        Console.Write(" ");
+                }
+                
+                foreach (char c in words[i])
+                {
+                    DateTime time = System.DateTime.Now;
+                    
+                    if (c != '\n')
+                    {
+                        Console.Write(c);
+                    }
+                    else
+                    {
+                        Console.CursorLeft = startPosX;
+                        Console.CursorTop = Console.CursorTop + 1;
+                    }
+                    
 
+                    int end = System.DateTime.Now.Millisecond - time.Millisecond;
+                    if (timemilli - end > 0){
+                        System.Threading.Thread.Sleep((int)(timemilli - end));
+                    }
+                }
+
+            }
+            
             if (endNewLine)
             {
                 Console.Write("\n");

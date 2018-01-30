@@ -17,8 +17,11 @@ namespace TextAdventureCS
         private Objects[,] items;
         private bool isEnclosed;
 
+        private string discription;
+
         public Room(string name, int width, int height)
         {
+            this.name = name;
             this.height = height;
             this.width = width;
             this.blockades = new Blockade[width, height, 4];
@@ -33,6 +36,11 @@ namespace TextAdventureCS
         public void SetBlockage(Blockade blockade, int x, int y)
         {
             this.blockades[x, y, blockade.GetDirection()] = blockade;
+        }
+
+        public void SetDiscription(string discription)
+        {
+            this.discription = discription;
         }
 
         public void AddLocations(ref Map map, int x, int y)
@@ -82,7 +90,7 @@ namespace TextAdventureCS
                     else
                         blockades[3] = new None("none", false, 3);
 
-                    Location location = new TempleRoom(this.name, blockades);
+                    Location location = new TempleRoom(this.name, blockades, discription);
                     if(this.items[i,j] != null)
                     location.GetItems().Add(this.items[i,j].GetName(), this.items[i,j]);
                     map.AddLocation(location, i + x, j + y);

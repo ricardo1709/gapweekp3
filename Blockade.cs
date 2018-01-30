@@ -21,6 +21,9 @@ namespace TextAdventureCS
         public abstract void OnPlayerInteraction(ref Player player, ref Map map);
         public abstract bool CanPlayerInteraction();
 
+        public abstract string GetDiscription(ref Map map);
+        public abstract bool CanGetDiscription();
+
         public bool IsSolid()
         {
             return this.isSolid;

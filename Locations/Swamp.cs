@@ -13,7 +13,7 @@ namespace TextAdventureCS
 
         }
 
-        public override void Description()
+        public override void Description(ref Map map)
         {
             Program.PrintLine( 100, "You are standing in a swamp.");
         }
