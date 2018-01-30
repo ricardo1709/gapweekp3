@@ -51,7 +51,7 @@ namespace TextAdventureCS
             int mapwidth = 11;
             int mapheight = 11;
             int xstartpos = 0;
-            int ystartpos = 0;
+            int ystartpos = 4;
             // Welcome the player
             Program.PrintLine("Welcome to the Riddle Temple", 100);
             Program.PrintLine("Before you can enter the temple, you will have to enter your name.", 100);
@@ -93,7 +93,7 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-            Program.PrintLine("Welcome to the puzzle temple!", 100);
+            Program.PrintLine("Welcome to the riddle temple!", 100);
             Program.PrintLine("You are a treasure hunter named ", 100, false, 0, 64);
             Program.PrintLine(player.GetName(), 10);
             Program.PrintLine("You are on a journey to find the chest of the magic strawberries", 100);
@@ -132,7 +132,7 @@ namespace TextAdventureCS
             room.SetEnclosed(true);
             room.SetBlockage(new Door("door 1", true, 0), 1, 0);
             room.SetBlockage(new Door("door 2", true, 2), 1, 2);
-            room.AddItem(new Key("door 2", true), 2, 2);
+            room.AddItem(new Key("door 1", true), 2, 2);
             room.AddLocations(ref map, 0, 3);
 
             room = new Room("end", 3, 3);
