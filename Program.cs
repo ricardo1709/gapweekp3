@@ -53,6 +53,7 @@ namespace TextAdventureCS
             int xstartpos = 0;
             int ystartpos = 0;
             // Welcome the player
+          
             Program.PrintLine( 100, "Welcome to a textbased adventure");
             Program.PrintLine( 100, "Before you can start your journey, you will have to enter your name.");
 
@@ -93,19 +94,23 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
+
             Program.PrintLine( 100, "Welcome to the world of Flightwood");
             Program.PrintLine( 100, "You just woke up from a very long sleep.");
             Program.PrintLine( 100, "You can't really remember anything but your name.");
             Program.PrintLine("Which by the way is ", 100, false, 0, 64);
             Program.PrintLine(10, player.GetName());
+
             // Added newline to improve readability.
             Console.ReadKey();
 
             player.ShowInventory();
+
             Program.PrintLine( 100, "You look around you and realise that you are in a forest.");
             Program.PrintLine( 100, "In the distance you hear the howl of an animal.");
             Program.PrintLine( 100, "You slowly come to your senses and choose to go.");
             Program.PrintLine( 100, "Press a key to continue..");
+
             Console.ReadKey();
         }
 
