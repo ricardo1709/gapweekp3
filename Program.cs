@@ -45,6 +45,11 @@ namespace TextAdventureCS
         const string ACTION_INTERACT_SOUTH = "Interact South";
         const string ACTION_INTERACT_WEST = "Interact West";
 
+        const string ACTION_DISCRIPTION_NORTH = "Discription North";
+        const string ACTION_DISCRIPTION_EAST = "Discription East";
+        const string ACTION_DISCRIPTION_SOUTH = "Discription South";
+        const string ACTION_DISCRIPTION_WEST = "Discription West";
+
         static void Main(string[] args)
         {
             // General initializations to prevent magic numbers
@@ -128,22 +133,22 @@ namespace TextAdventureCS
 
             Room room = new Room("Starting room", 3, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 1", true, 2), 1, 2);
+            room.SetBlockage(new Door("door 1", true, 2, "Discription"), 1, 2);
             room.AddItem(new Key("door 1", true), 1, 1);
             room.SetDiscription(". {0} You walk into a big empty room with three doors.\nWitch one do you choose....");
             room.AddLocations(ref map, 0, 0);
 
             room = new Room("hall", 5, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 1", true, 0), 1, 0);
-            room.SetBlockage(new Door("door 2", true, 2), 1, 2);
+            room.SetBlockage(new Door("door 1", true, 0, "Discription"), 1, 0);
+            room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 2);
             room.AddItem(new Key("door 2", true), 2, 2);
             room.SetDiscription(". {0} this is the startings room\n");
             room.AddLocations(ref map, 0, 3);
 
             room = new Room("end", 3, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 2", true, 2), 1, 0);
+            room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 0);
             room.SetDiscription(". {0} this is the startings room\n");
             room.AddLocations(ref map, 0, 6);
 
@@ -185,6 +190,23 @@ namespace TextAdventureCS
                     else if (menuItems[choice].StartsWith(ACTION_INTERACT_WEST))
                     {
                         map.GetLocation().GetBlockage(3).OnPlayerInteraction(ref player, ref map);
+                    }
+
+                    if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(0).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_EAST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(1).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_SOUTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(2).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_WEST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(3).GetDiscription(ref map));
                     }
 
                     switch ( menuItems[choice] )
@@ -282,6 +304,15 @@ namespace TextAdventureCS
                 items.Add(ACTION_INTERACT_SOUTH + " " + location.GetBlockage(2).GetName());
             if (location.GetBlockage(3).CanPlayerInteraction())
                 items.Add(ACTION_INTERACT_WEST + " " + location.GetBlockage(3).GetName());
+
+            if (location.GetBlockage(0).CanGetDiscription())
+                items.Add(ACTION_DISCRIPTION_NORTH + " " + location.GetBlockage(0).GetName());
+            if (location.GetBlockage(1).CanGetDiscription())
+                items.Add(ACTION_DISCRIPTION_EAST + " " + location.GetBlockage(1).GetName());
+            if (location.GetBlockage(2).CanGetDiscription())
+                items.Add(ACTION_DISCRIPTION_SOUTH + " " + location.GetBlockage(2).GetName());
+            if (location.GetBlockage(3).CanGetDiscription())
+                items.Add(ACTION_DISCRIPTION_WEST + " " + location.GetBlockage(3).GetName());
         }
 
         static void Quit()
