@@ -7,6 +7,7 @@ using System.Text;
 using TextAdventureCS.Blockades;
 using TextAdventureCS.Items;
 
+
 // Originally made by Sietse Dijks
 // Releasedate: 18-01-2014
 // Current version: 1.5
@@ -77,7 +78,7 @@ namespace TextAdventureCS
             // Make the player
             Player player = new Player(name, 100);
             //Welcome the player
-            //Welcome(ref player);
+            Welcome(ref player);
 
             // Initialize the map
             Map map = new Map(mapwidth, mapheight, xstartpos, ystartpos);
@@ -95,7 +96,7 @@ namespace TextAdventureCS
             Program.PrintLine("Welcome to the world of Flightwood", 100);
             Program.PrintLine("You just woke up from a very long sleep.", 100);
             Program.PrintLine("You can't really remember anything but your name.", 100);
-            Program.PrintLine("Which by the way is ", 100, false);
+            Program.PrintLine("Which by the way is ", 100, false, 0, 64);
             Program.PrintLine(player.GetName(), 10);
             // Added newline to improve readability.
             Console.WriteLine();
@@ -147,6 +148,7 @@ namespace TextAdventureCS
             // Refactored by Michiel and Alex
             do
             {
+                 
                 Console.Clear();
                 map.GetLocation().Description();
                 choice = ShowMenu(map, ref menuItems);
@@ -282,23 +284,27 @@ namespace TextAdventureCS
 
         public static void PrintLine(string msg, int timemilli)
         {
-            PrintLine(msg, timemilli, true);
+            PrintLine(msg, timemilli, true, 0, 64);
         }
 
-        public static void PrintLine(string msg, int timemilli, bool endNewLine)
+        public static void PrintLine(string msg, int timemilli, bool endNewLine, int startPosX, int endPosX)
         {
             Console.CursorVisible = true;
             foreach (char c in msg)
             {
-                Console.Write(c);
-                Stopwatch s = new Stopwatch();
-
-                s.Start();
-                do
+                DateTime time = System.DateTime.Now;
+                if (Console.CursorLeft  == endPosX)
                 {
+                    Console.CursorLeft = startPosX;
+                    Console.CursorTop = Console.CursorTop + 1;
+                } 
+                Console.Write(c);
 
-                } while (s.Elapsed < TimeSpan.FromMilliseconds(timemilli));
-                s.Reset();
+
+                int end = System.DateTime.Now.Millisecond - time.Millisecond;
+                if (timemilli - end > 0){
+                    System.Threading.Thread.Sleep((int)(timemilli - end));
+                }
             }
 
             if (endNewLine)
