@@ -10,9 +10,11 @@ namespace TextAdventureCS.Blockades
     class Door : Blockade
     {
 
-        public Door(string name, bool isSolid, int direction) : base(name, isSolid, direction)
-        {
+        private string discription;
 
+        public Door(string name, bool isSolid, int direction, string discription) : base(name, isSolid, direction)
+        {
+            this.discription = discription
         }
 
         public override bool CanGetDiscription()
@@ -27,7 +29,7 @@ namespace TextAdventureCS.Blockades
 
         public override string GetDiscription(ref Map map)
         {
-            return (
+            return this.discription;
         }
 
         public override void OnPlayerInteraction(ref Player player, ref Map map)
