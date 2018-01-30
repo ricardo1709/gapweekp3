@@ -8,7 +8,7 @@ namespace TextAdventureCS
     class Forrest : Location
     {
         public Forrest(string name)
-            : base(name)
+            : base(name, null)
         {
             // Add items here
             Diamond dia = new Diamond("Diamond", true);

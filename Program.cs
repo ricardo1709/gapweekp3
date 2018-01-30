@@ -4,6 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
+using TextAdventureCS.Blockades;
+using TextAdventureCS.Items;
+
+
 // Originally made by Sietse Dijks
 // Releasedate: 18-01-2014
 // Current version: 1.5
@@ -36,16 +40,21 @@ namespace TextAdventureCS
         const string ACTION_RUN = "Run";
         const string ACTION_QUIT = "Exit";
 
+        const string ACTION_INTERACT_NORTH = "Interact North";
+        const string ACTION_INTERACT_EAST = "Interact East";
+        const string ACTION_INTERACT_SOUTH = "Interact South";
+        const string ACTION_INTERACT_WEST = "Interact West";
+
         static void Main(string[] args)
         {
             // General initializations to prevent magic numbers
-            int mapwidth = 4;
-            int mapheight = 4;
-            int xstartpos = 2;
+            int mapwidth = 11;
+            int mapheight = 11;
+            int xstartpos = 0;
             int ystartpos = 0;
             // Welcome the player
-            Console.WriteLine("Welcome to a textbased adventure");
-            Console.WriteLine("Before you can start your journey, you will have to enter your name.");
+            Program.PrintLine("Welcome to the Riddle Temple", 100);
+            Program.PrintLine("Before you can enter the temple, you will have to enter your name.", 100);
 
             string name = null;
             string input = null;
@@ -84,18 +93,19 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-            Program.PrintLine("Welcome to the world of Flightwood", 100);
-            Program.PrintLine("You just woke up from a very long sleep.", 100);
-            Program.PrintLine("You can't really remember anything but your name.", 100);
-            Program.PrintLine("Which by the way is ", 100, false);
+            Program.PrintLine("Welcome to the puzzle temple!", 100);
+            Program.PrintLine("You are a treasure hunter named ", 100, false, 0, 64);
             Program.PrintLine(player.GetName(), 10);
+            Program.PrintLine("You are on a journey to find the chest of the magic strawberries", 100);
+           
             // Added newline to improve readability.
             Console.WriteLine();
 
             player.ShowInventory();
-            Program.PrintLine("You look around you and realise that you are in a forest.", 100);
-            Program.PrintLine("In the distance you hear the howl of an animal.", 100);
-            Program.PrintLine("You slowly come to your senses and choose to go.", 100);
+            Program.PrintLine("In your journey you find a old maya temple.", 100);
+            Program.PrintLine("You decide to go inside it", 100);
+            Program.PrintLine("Inside the temple there are three doors", 100);
+            Program.PrintLine("Wich one do you choose?", 100);
             Program.PrintLine("Press a key to continue..", 100);
             Console.ReadKey();
         }
@@ -103,14 +113,32 @@ namespace TextAdventureCS
         static void InitMap(ref Map map)
         {
             // Add locations with their coordinates to this list.
-            Forrest forrest = new Forrest("Black Forrest");
+            /*Forrest forrest = new Forrest("Black Forrest");
             map.AddLocation(forrest, 0, 2);
             Cliff cliff = new Cliff("Rockface");
             map.AddLocation(cliff, 0, 3);
             Church church = new Church("Old Chapel");
             map.AddLocation(church, 1, 2);
             Swamp swamp = new Swamp("Bog");
-            map.AddLocation(swamp, 0, 1);
+            map.AddLocation(swamp, 0, 1);*/
+
+            Room room = new Room("start", 3, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 1", true, 2), 1, 2);
+            room.AddItem(new Key("door 1", true), 1, 1);
+            room.AddLocations(ref map, 0, 0);
+
+            room = new Room("hall", 5, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 1", true, 0), 1, 0);
+            room.SetBlockage(new Door("door 2", true, 2), 1, 2);
+            room.AddItem(new Key("door 2", true), 2, 2);
+            room.AddLocations(ref map, 0, 3);
+
+            room = new Room("end", 3, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 2", true, 2), 1, 0);
+            room.AddLocations(ref map, 0, 8);
         }
 
         static void Start(ref Map map, ref Player player)
@@ -121,6 +149,7 @@ namespace TextAdventureCS
             // Refactored by Michiel and Alex
             do
             {
+                 
                 Console.Clear();
                 map.GetLocation().Description();
                 choice = ShowMenu(map, ref menuItems);
@@ -132,10 +161,31 @@ namespace TextAdventureCS
                         map.Move( menuItems[choice] );
                     }
 
+                    if (menuItems[choice].StartsWith(ACTION_INTERACT_NORTH))
+                    {
+                        map.GetLocation().GetBlockage(0).OnPlayerInteraction(ref player, ref map);
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_INTERACT_EAST))
+                    {
+                        map.GetLocation().GetBlockage(1).OnPlayerInteraction(ref player, ref map);
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_INTERACT_SOUTH))
+                    {
+                        map.GetLocation().GetBlockage(2).OnPlayerInteraction(ref player, ref map);
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_INTERACT_WEST))
+                    {
+                        map.GetLocation().GetBlockage(3).OnPlayerInteraction(ref player, ref map);
+                    }
+
                     switch ( menuItems[choice] )
                     {
                         case ACTION_SEARCH:
-                            // Add code to perform an item pickup
+                            foreach(Objects item in map.GetLocation().GetItems().Values)
+                            {
+                                player.PickupItem(item);
+                            }
+                                
                         break;
 
                         case ACTION_FIGHT:
@@ -160,7 +210,8 @@ namespace TextAdventureCS
 
             menu.Clear();
             ShowDirections(map, ref menu);
-            
+            ShowInteractions(map, ref menu);
+
             if (map.GetLocation().CheckForItems())
             {
                 bool acquirableitems = false;
@@ -179,6 +230,8 @@ namespace TextAdventureCS
                 menu.Add( ACTION_FIGHT );
                 menu.Add( ACTION_RUN );
             }
+            
+
             menu.Add( ACTION_QUIT );
 
             do
@@ -209,6 +262,19 @@ namespace TextAdventureCS
                 items.Add( MOVE_WEST );
         }
 
+        static void ShowInteractions(Map map, ref List<string> items)
+        {
+            Location location = map.GetLocation();
+            if (location.GetBlockage(0).CanPlayerInteraction())
+                items.Add(ACTION_INTERACT_NORTH + " " + location.GetBlockage(0).GetName());
+            if (location.GetBlockage(1).CanPlayerInteraction())
+                items.Add(ACTION_INTERACT_EAST + " " + location.GetBlockage(1).GetName());
+            if (location.GetBlockage(2).CanPlayerInteraction())
+                items.Add(ACTION_INTERACT_SOUTH + " " + location.GetBlockage(2).GetName());
+            if (location.GetBlockage(3).CanPlayerInteraction())
+                items.Add(ACTION_INTERACT_WEST + " " + location.GetBlockage(3).GetName());
+        }
+
         static void Quit()
         {
             Console.Clear();
@@ -219,22 +285,27 @@ namespace TextAdventureCS
 
         public static void PrintLine(string msg, int timemilli)
         {
-            PrintLine(msg, timemilli, true);
+            PrintLine(msg, timemilli, true, 0, 64);
         }
 
-        public static void PrintLine(string msg, int timemilli, bool endNewLine)
+        public static void PrintLine(string msg, int timemilli, bool endNewLine, int startPosX, int endPosX)
         {
             Console.CursorVisible = true;
             foreach (char c in msg)
             {
-                Console.Write(c);
-                Stopwatch s = new Stopwatch();
-                s.Start();
-                do
+                DateTime time = System.DateTime.Now;
+                if (Console.CursorLeft  == endPosX)
                 {
+                    Console.CursorLeft = startPosX;
+                    Console.CursorTop = Console.CursorTop + 1;
+                } 
+                Console.Write(c);
 
-                } while (s.Elapsed < TimeSpan.FromMilliseconds(timemilli));
-                s.Reset();
+
+                int end = System.DateTime.Now.Millisecond - time.Millisecond;
+                if (timemilli - end > 0){
+                    System.Threading.Thread.Sleep((int)(timemilli - end));
+                }
             }
 
             if (endNewLine)

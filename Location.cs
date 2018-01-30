@@ -9,13 +9,18 @@ namespace TextAdventureCS
     {
         protected string name;
         protected bool hasEnemy;
+
+        protected Blockade[] blockades = new Blockade[4];
+
         protected Dictionary<string, Objects> items;
 
-        public Location(string name)
+        public Location(string name, Blockade[] blockades)
         {
             this.name = name;
             hasEnemy = false;
             items = new Dictionary<string, Objects>();
+
+            this.blockades = blockades;
         }
 
         abstract public void Description();
@@ -41,6 +46,11 @@ namespace TextAdventureCS
         public Dictionary<string, Objects> GetItems()
         {
             return items;
+        }
+
+        public Blockade GetBlockage(int i)
+        {
+            return blockades[i];
         }
     }
 }
