@@ -53,8 +53,8 @@ namespace TextAdventureCS
             int xstartpos = 0;
             int ystartpos = 0;
             // Welcome the player
-            Console.WriteLine("Welcome to a textbased adventure");
-            Console.WriteLine("Before you can start your journey, you will have to enter your name.");
+            Program.PrintLine("Welcome to the Riddle Temple", 100);
+            Program.PrintLine("Before you can enter the temple, you will have to enter your name.", 100);
 
             string name = null;
             string input = null;
@@ -93,18 +93,19 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-            Program.PrintLine("Welcome to the world of Flightwood", 100);
-            Program.PrintLine("You just woke up from a very long sleep.", 100);
-            Program.PrintLine("You can't really remember anything but your name.", 100);
-            Program.PrintLine("Which by the way is ", 100, false, 0, 64);
+            Program.PrintLine("Welcome to the puzzle temple!", 100);
+            Program.PrintLine("You are a treasure hunter named ", 100, false, 0, 64);
             Program.PrintLine(player.GetName(), 10);
+            Program.PrintLine("You are on a journey to find the chest of the magic strawberries", 100);
+           
             // Added newline to improve readability.
             Console.WriteLine();
 
             player.ShowInventory();
-            Program.PrintLine("You look around you and realise that you are in a forest.", 100);
-            Program.PrintLine("In the distance you hear the howl of an animal.", 100);
-            Program.PrintLine("You slowly come to your senses and choose to go.", 100);
+            Program.PrintLine("In your journey you find a old maya temple.", 100);
+            Program.PrintLine("You decide to go inside it", 100);
+            Program.PrintLine("Inside the temple there are three doors", 100);
+            Program.PrintLine("Wich one do you choose?", 100);
             Program.PrintLine("Press a key to continue..", 100);
             Console.ReadKey();
         }
