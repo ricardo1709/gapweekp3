@@ -59,13 +59,13 @@ namespace TextAdventureCS
             switch (dir)
             {
                 case "Go North":
-                    pos.Yposition += 1;
+                    pos.Yposition -= 1;
                     break;
                 case "Go East":
                     pos.Xposition += 1;
                     break;
                 case "Go South":
-                    pos.Yposition -= 1;
+                    pos.Yposition += 1;
                     break;
                 case "Go West":
                     pos.Xposition -= 1;
@@ -85,30 +85,46 @@ namespace TextAdventureCS
             directions.west = 1;
 
             // Check boundries and if there is a level north in the array
-            if (pos.Yposition + 1 >= height)
-                directions.north = -1;
-            else if (map[pos.Yposition + 1, pos.Xposition] == null)
-                directions.north = -1;
-            // Check boundries and if there is a level south in the array
             if (pos.Yposition - 1 < 0)
+                directions.north = -1;
+            else if (map[pos.Xposition, pos.Yposition - 1] == null)
+                directions.north = -1;
+            else if (map[pos.Xposition, pos.Yposition].GetBlockage(0).IsSolid())
+                directions.north = -1;
+
+            // Check boundries and if there is a level south in the array
+            if (pos.Yposition + 1 >= height)
                 directions.south = -1;
-            else if (map[pos.Yposition - 1, pos.Xposition] == null)
+            else if (map[pos.Xposition, pos.Yposition + 1] == null)
                 directions.south = -1;
+            else if (map[pos.Xposition, pos.Yposition].GetBlockage(2).IsSolid())
+                directions.south = -1;
+
             // Check boundries and if there is a level east in the array
             if (pos.Xposition + 1 >= width)
                 directions.east = -1;
-            else if (map[pos.Yposition, pos.Xposition + 1] == null)
+            else if (map[pos.Xposition + 1, pos.Yposition] == null)
                 directions.east = -1;
+            else if (map[pos.Xposition, pos.Yposition].GetBlockage(1).IsSolid())
+                directions.east = -1;
+
             // Check boundries and if there is a level west in the array
             if (pos.Xposition - 1 < 0)
                 directions.west = -1;
-            else if (map[pos.Yposition, pos.Xposition - 1] == null)
+            else if (map[pos.Xposition - 1, pos.Yposition] == null)
+                directions.west = -1;
+            else if (map[pos.Xposition, pos.Yposition].GetBlockage(3).IsSolid())
                 directions.west = -1;
         }
 
         public Location GetLocation()
         {
-            return map[pos.Yposition,pos.Xposition];
+            return map[pos.Xposition,pos.Yposition];
+        }
+
+        public Location GetLocation(int XOfset, int YOfset)
+        {
+            return map[pos.Xposition + XOfset, pos.Yposition + YOfset];
         }
 
         public int GetNorth()

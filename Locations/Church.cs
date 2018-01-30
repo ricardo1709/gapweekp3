@@ -8,7 +8,7 @@ namespace TextAdventureCS
     class Church : Location
     {
         public Church(string name)
-            : base(name)
+            : base(name, null)
         {
 
         }
