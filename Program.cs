@@ -45,6 +45,11 @@ namespace TextAdventureCS
         const string ACTION_INTERACT_SOUTH = "Interact South";
         const string ACTION_INTERACT_WEST = "Interact West";
 
+        const string ACTION_DISCRIPTION_NORTH = "Discription North";
+        const string ACTION_DISCRIPTION_EAST = "Discription East";
+        const string ACTION_DISCRIPTION_SOUTH = "Discription South";
+        const string ACTION_DISCRIPTION_WEST = "Discription West";
+
         static void Main(string[] args)
         {
             // General initializations to prevent magic numbers
@@ -53,8 +58,9 @@ namespace TextAdventureCS
             int xstartpos = 0;
             int ystartpos = 4;
             // Welcome the player
-            Program.PrintLine("Welcome to the Riddle Temple", 100);
-            Program.PrintLine("Before you can enter the temple, you will have to enter your name.", 100);
+          
+            Program.PrintLine( 100, "Welcome to a textbased adventure");
+            Program.PrintLine( 100, "Before you can start your journey, you will have to enter your name.");
 
             string name = null;
             string input = null;
@@ -65,12 +71,12 @@ namespace TextAdventureCS
             {
                 if( input == null || input == "N" )
                 {
-                    Console.WriteLine("Please enter your name and press enter:");
+                    Program.PrintLine(100, "Please enter your name and press enter:");
                     name = Console.ReadLine();
                 }
 
-                Console.WriteLine("Your name is {0}",name);
-                Console.WriteLine("Is this correct? (y/n)");
+                Program.PrintLine  (100,"Your name is {0}",name);
+                Program.PrintLine( 100, "Is this correct? (y/n)");
                 input = Console.ReadLine();
                 input = input.ToUpper();
             }           
@@ -78,8 +84,9 @@ namespace TextAdventureCS
             // Make the player
             Player player = new Player(name, 100);
             //Welcome the player
-            Welcome(ref player);
-
+            #if !DEBUG
+                Welcome(ref player);
+            #endif
             // Initialize the map
             Map map = new Map(mapwidth, mapheight, xstartpos, ystartpos);
             // Put the locations with their items on the map
@@ -93,20 +100,23 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-            Program.PrintLine("Welcome to the riddle temple!", 100);
-            Program.PrintLine("You are a treasure hunter named ", 100, false, 0, 64);
-            Program.PrintLine(player.GetName(), 10);
-            Program.PrintLine("You are on a journey to find the chest of the magic strawberries", 100);
-           
+
+            Program.PrintLine( 100, "Welcome to the world of Flightwood");
+            Program.PrintLine( 100, "You just woke up from a very long sleep.");
+            Program.PrintLine( 100, "You can't really remember anything but your name.");
+            Program.PrintLine("Which by the way is ", 100, false, 0, 64);
+            Program.PrintLine(10, player.GetName());
+
             // Added newline to improve readability.
-            Console.WriteLine();
+            Console.ReadKey();
 
             player.ShowInventory();
-            Program.PrintLine("In your journey you find a old maya temple.", 100);
-            Program.PrintLine("You decide to go inside it", 100);
-            Program.PrintLine("Inside the temple there are three doors", 100);
-            Program.PrintLine("Wich one do you choose?", 100);
-            Program.PrintLine("Press a key to continue..", 100);
+
+            Program.PrintLine( 100, "You look around you and realise that you are in a forest.");
+            Program.PrintLine( 100, "In the distance you hear the howl of an animal.");
+            Program.PrintLine( 100, "You slowly come to your senses and choose to go.");
+            Program.PrintLine( 100, "Press a key to continue..");
+
             Console.ReadKey();
         }
 
@@ -122,23 +132,29 @@ namespace TextAdventureCS
             Swamp swamp = new Swamp("Bog");
             map.AddLocation(swamp, 0, 1);*/
 
-            Room room = new Room("start", 3, 3);
+            Room room = new Room("Starting room", 3, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 1", true, 2), 1, 2);
+            room.SetBlockage(new Door("door 1", true, 2, "Discription"), 1, 2);
             room.AddItem(new Key("door 1", true), 1, 1);
+            room.SetDiscription(". {0} You walk into a big empty room with three doors.\nWitch one do you choose....");
             room.AddLocations(ref map, 0, 0);
 
             room = new Room("hall", 5, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 1", true, 0), 1, 0);
-            room.SetBlockage(new Door("door 2", true, 2), 1, 2);
-            room.AddItem(new Key("door 1", true), 2, 2);
+
+            room.SetBlockage(new Door("door 1", true, 0, "Discription"), 1, 0);
+            room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 2);
+            room.AddItem(new Key("door 2", true), 2, 2);
+            room.SetDiscription(". {0} this is the startings room\n");
             room.AddLocations(ref map, 0, 3);
 
             room = new Room("end", 3, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 2", true, 2), 1, 0);
-            room.AddLocations(ref map, 0, 8);
+            room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 0);
+            room.SetDiscription(". {0} this is the startings room\n");
+            room.AddLocations(ref map, 0, 6);
+
+            map.SetRoom(" ");
         }
 
         static void Start(ref Map map, ref Player player)
@@ -151,7 +167,7 @@ namespace TextAdventureCS
             {
                  
                 Console.Clear();
-                map.GetLocation().Description();
+                map.GetLocation().Description(ref map);
                 choice = ShowMenu(map, ref menuItems);
 
                 if ( choice != menuItems.Count() )
@@ -176,6 +192,23 @@ namespace TextAdventureCS
                     else if (menuItems[choice].StartsWith(ACTION_INTERACT_WEST))
                     {
                         map.GetLocation().GetBlockage(3).OnPlayerInteraction(ref player, ref map);
+                    }
+
+                    if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(0).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_EAST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(1).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_SOUTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(2).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_WEST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(3).GetDiscription(ref map));
                     }
 
                     switch ( menuItems[choice] )
@@ -238,9 +271,9 @@ namespace TextAdventureCS
             {
                 for (int i = 0; i < menu.Count(); i++)
                 {
-                    Console.WriteLine("{0} - {1}", i + 1, menu[i]);
+                    Program.PrintLine( 100,"{0} - {1}", i + 1, menu[i]);
                 }
-                Console.WriteLine("Please enter your choice: 1 - {0}", menu.Count());
+                Program.PrintLine( 50,"Please enter your choice: 1 - {0}" ,menu.Count());
                 input = Console.ReadLine();
             } while (!int.TryParse(input, out choice) || (choice > menu.Count() || choice < 0));
 
@@ -273,6 +306,15 @@ namespace TextAdventureCS
                 items.Add(ACTION_INTERACT_SOUTH + " " + location.GetBlockage(2).GetName());
             if (location.GetBlockage(3).CanPlayerInteraction())
                 items.Add(ACTION_INTERACT_WEST + " " + location.GetBlockage(3).GetName());
+
+            if (location.GetBlockage(0).CanGetDiscription())
+                items.Add(ACTION_DISCRIPTION_NORTH + " " + location.GetBlockage(0).GetName());
+            if (location.GetBlockage(1).CanGetDiscription())
+                items.Add(ACTION_DISCRIPTION_EAST + " " + location.GetBlockage(1).GetName());
+            if (location.GetBlockage(2).CanGetDiscription())
+                items.Add(ACTION_DISCRIPTION_SOUTH + " " + location.GetBlockage(2).GetName());
+            if (location.GetBlockage(3).CanGetDiscription())
+                items.Add(ACTION_DISCRIPTION_WEST + " " + location.GetBlockage(3).GetName());
         }
 
         static void Quit()
@@ -283,31 +325,51 @@ namespace TextAdventureCS
             Console.ReadKey();
         }
 
-        public static void PrintLine(string msg, int timemilli)
+        public static void PrintLine(int timemilli, string msg, params object[] par)
         {
-            PrintLine(msg, timemilli, true, 0, 64);
+            PrintLine(string.Format(msg, par), timemilli, true, 0, 64);
         }
 
         public static void PrintLine(string msg, int timemilli, bool endNewLine, int startPosX, int endPosX)
         {
             Console.CursorVisible = true;
-            foreach (char c in msg)
+            string[] words = msg.Split(' ');
+            for (int i=0;i<words.Count(); i++)
             {
-                DateTime time = System.DateTime.Now;
-                if (Console.CursorLeft  == endPosX)
+                if (Console.CursorLeft + 1 + words[i].Count()  >= endPosX)
                 {
                     Console.CursorLeft = startPosX;
                     Console.CursorTop = Console.CursorTop + 1;
-                } 
-                Console.Write(c);
-
-
-                int end = System.DateTime.Now.Millisecond - time.Millisecond;
-                if (timemilli - end > 0){
-                    System.Threading.Thread.Sleep((int)(timemilli - end));
                 }
-            }
+                else
+                {
+                    if (i != words.Count() && i != 0)
+                        Console.Write(" ");
+                }
+                
+                foreach (char c in words[i])
+                {
+                    DateTime time = System.DateTime.Now;
+                    
+                    if (c != '\n')
+                    {
+                        Console.Write(c);
+                    }
+                    else
+                    {
+                        Console.CursorLeft = startPosX;
+                        Console.CursorTop = Console.CursorTop + 1;
+                    }
+                    
 
+                    int end = System.DateTime.Now.Millisecond - time.Millisecond;
+                    if (timemilli - end > 0){
+                        System.Threading.Thread.Sleep((int)(timemilli - end));
+                    }
+                }
+
+            }
+            
             if (endNewLine)
             {
                 Console.Write("\n");
