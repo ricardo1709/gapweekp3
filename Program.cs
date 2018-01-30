@@ -56,7 +56,7 @@ namespace TextAdventureCS
             int mapwidth = 11;
             int mapheight = 11;
             int xstartpos = 0;
-            int ystartpos = 0;
+            int ystartpos = 4;
             // Welcome the player
           
             Program.PrintLine( 100, "Welcome to a textbased adventure");
@@ -100,6 +100,7 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
+
             Program.PrintLine( 100, "Welcome to the world of Flightwood");
             Program.PrintLine( 100, "You just woke up from a very long sleep.");
             Program.PrintLine( 100, "You can't really remember anything but your name.");
@@ -140,6 +141,7 @@ namespace TextAdventureCS
 
             room = new Room("hall", 5, 3);
             room.SetEnclosed(true);
+
             room.SetBlockage(new Door("door 1", true, 0, "Discription"), 1, 0);
             room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 2);
             room.AddItem(new Key("door 2", true), 2, 2);
