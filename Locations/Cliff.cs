@@ -12,7 +12,7 @@ namespace TextAdventureCS
         {
         }
 
-        public override void Description()
+        public override void Description(ref Map map)
         {
             Console.WriteLine("You are standing in front of a cliff.");
             Console.WriteLine("This is a dead end. You can only go back");

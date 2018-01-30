@@ -23,7 +23,7 @@ namespace TextAdventureCS
             this.blockades = blockades;
         }
 
-        abstract public void Description();
+        abstract public void Description(ref Map map);
 
         public virtual string GetName()
         {

@@ -13,7 +13,7 @@ namespace TextAdventureCS
 
         }
 
-        public override void Description()
+        public override void Description(ref Map map)
         {
             Console.WriteLine("You are standing in front of a church.");
         }

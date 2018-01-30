@@ -14,6 +14,8 @@ namespace TextAdventureCS
         private Position pos;
         private Directions directions;
 
+        private string room;
+
         private struct Position
         {
             public int Xposition;
@@ -145,6 +147,16 @@ namespace TextAdventureCS
         public int GetWest()
         {
             return directions.west;
+        }
+
+        public void SetRoom(string room)
+        {
+            this.room = room;
+        }
+
+        public string GetRoom()
+        {
+            return this.room;
         }
     }
 }

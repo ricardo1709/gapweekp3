@@ -17,7 +17,7 @@ namespace TextAdventureCS
             hasEnemy = true;
         }
 
-        public override void Description()
+        public override void Description(ref Map map)
         {
             // Insert a nice description
             Console.WriteLine("You are standing in a forrest");

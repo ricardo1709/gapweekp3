@@ -14,9 +14,19 @@ namespace TextAdventureCS.Blockades
 
         }
 
+        public override bool CanGetDiscription()
+        {
+            throw new NotImplementedException();
+        }
+
         public override bool CanPlayerInteraction()
         {
             return false;
+        }
+
+        public override string GetDiscription(ref Map map)
+        {
+            throw new NotImplementedException();
         }
 
         public override void OnPlayerInteraction(ref Player player, ref Map map)
