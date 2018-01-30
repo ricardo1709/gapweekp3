@@ -15,7 +15,7 @@ namespace TextAdventureCS
 
         public override void Description()
         {
-            Console.WriteLine("You are standing in a swamp.");
+            Program.PrintLine( 100, "You are standing in a swamp.");
         }
     }
 }
