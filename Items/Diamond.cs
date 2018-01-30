@@ -14,7 +14,7 @@ namespace TextAdventureCS
 
         override protected void Description()
         {
-            Console.WriteLine("You see a shining Diamond lying on the ground.");
+            Program.PrintLine(50,"You see a shining Diamond lying on the ground.");
         }
     }
 }
