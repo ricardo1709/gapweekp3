@@ -8,9 +8,12 @@ namespace TextAdventureCS.Blockades
 {
     class WallDiscription : Blockade
     {
-        public WallDiscription(string name, bool isSolid, int direction) : base(name, isSolid, direction)
-        {
 
+        private string discription;
+
+        public WallDiscription(string name, bool isSolid, int direction, string discription) : base(name, isSolid, direction)
+        {
+            this.discription = discription;
         }
 
         public override bool CanGetDiscription()
@@ -48,8 +51,8 @@ namespace TextAdventureCS.Blockades
                     break;
             }
 
-            map.GetLocation(posX, posY).SetEnemy(new StoneEnemy("stone guard", 10));
-            return "When you was reading the text on the wall you read turn around.";
+            map.GetLocation(posX, posY).SetEnemy(new StoneEnemy("stone guard", 50));
+            return string.Format("When you was reading the text on the wall you read turn around. {0}", this.discription);
         }
 
         public override void OnPlayerInteraction(ref Player player, ref Map map)
