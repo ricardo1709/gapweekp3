@@ -271,7 +271,7 @@ namespace TextAdventureCS
             {
                 for (int i = 0; i < menu.Count(); i++)
                 {
-                    Program.PrintLine( 100,"{0} - {1}", i + 1, menu[i]);
+                    Program.PrintLine( 0,"{0} - {1}", i + 1, menu[i]);
                 }
                 Program.PrintLine( 50,"Please enter your choice: 1 - {0}" ,menu.Count());
                 input = Console.ReadLine();
