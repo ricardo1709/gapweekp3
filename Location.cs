@@ -8,7 +8,7 @@ namespace TextAdventureCS
     abstract class Location
     {
         protected string name;
-        protected bool hasEnemy;
+        protected Actor Enemy;
 
         protected Blockade[] blockades = new Blockade[4];
 
@@ -17,7 +17,7 @@ namespace TextAdventureCS
         public Location(string name, Blockade[] blockades)
         {
             this.name = name;
-            hasEnemy = false;
+            
             items = new Dictionary<string, Objects>();
 
             this.blockades = blockades;
@@ -30,9 +30,10 @@ namespace TextAdventureCS
             return name;
         }
 
+
         public virtual bool HasEnemy()
         {
-            return hasEnemy;
+            return Enemy != null;
         }
 
         public virtual bool CheckForItems()
@@ -51,6 +52,16 @@ namespace TextAdventureCS
         public Blockade GetBlockage(int i)
         {
             return blockades[i];
+        }
+
+        public void SetEnemy(Actor actor)
+        {
+            this.Enemy = actor;
+        }
+
+        public Actor GetEnemy()
+        {
+            return this.Enemy;
         }
     }
 }

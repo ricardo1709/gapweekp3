@@ -14,7 +14,7 @@ namespace TextAdventureCS
             Diamond dia = new Diamond("Diamond", true);
             items.Add(dia.GetName(), dia);
             // If there is an enemy, set enemy to true
-            hasEnemy = true;
+            
         }
 
         public override void Description(ref Map map)

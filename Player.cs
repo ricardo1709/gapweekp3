@@ -109,5 +109,10 @@ namespace TextAdventureCS
                 Console.ReadKey();
             }
         }
+
+        public override Objects Loot()
+        {
+            return null;
+        }
     }
 }
