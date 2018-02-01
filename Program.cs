@@ -57,7 +57,7 @@ namespace TextAdventureCS
             int mapwidth = 11;
             int mapheight = 11;
             int xstartpos = 0;
-            int ystartpos = 0;
+            int ystartpos = 4;
             // Welcome the player
 
             Program.PrintLine(100, "Welcome to a textbased adventure");
@@ -113,9 +113,19 @@ namespace TextAdventureCS
             Player player = new Player(name, 100);
 
             //Welcome the player
-                #if !DEBUG
+
+            #if !DEBUG
                 Welcome(ref player);
-                #endif
+            #endif
+
+            #if DEBUG
+              player.PickupItem(new Key("door 2", true));
+              player.PickupItem(new Key("door 3", true));
+              player.PickupItem(new Key("door 4", true));
+              player.PickupItem(new Key("door 5", true));
+              player.PickupItem(new Key("door 6", true));
+            #endif
+
             // Initialize the map
             Map map = new Map(mapwidth, mapheight, xstartpos, ystartpos);
             // Put the locations with their items on the map
@@ -129,20 +139,26 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-            Program.PrintLine( 100, "Welcome to the world of Flightwood");
-            Program.PrintLine( 100, "You just woke up from a very long sleep.");
-            Program.PrintLine( 100, "You can't really remember anything but your name.");
-            Program.PrintLine("Which by the way is ", 100, false, 0, 64);
+
+            Program.PrintLine( 100, "Welcome to the world of Radius");
+            Program.PrintLine( 100, "Storyline: You are a big fan of strawberries, your life goal is to eat as many stawberries as possible..");
+            Program.PrintLine( 100, "You heard that there is an temple in the middle of the \nRadius forest. In that temple is a box with magic stawberries");
+            Program.PrintLine(100, "These magic strawberries are special.. if you eat one a new one will spawn back into the box.");
+            Program.PrintLine(100, "That means.. YOU HAVE AN UNLIMITED SUPPLY OF STRAWBERRIES!");
+            Program.PrintLine(100, "But first you have to find that box.. \ngood luck");            
             Program.PrintLine(10, player.GetName());
+            Console.WriteLine("Ready? press enter...");
+            Console.ReadKey();
+            Console.Clear();
 
             // Added newline to improve readability.
-            Console.ReadKey();
+            
 
             player.ShowInventory();
 
-            Program.PrintLine( 100, "You look around you and realise that you are in a forest.");
-            Program.PrintLine( 100, "In the distance you hear the howl of an animal.");
-            Program.PrintLine( 100, "You slowly come to your senses and choose to go.");
+            Program.PrintLine( 100, "You're excited to go into the temple!");
+            Program.PrintLine( 100, "But scared too.. but you just want that magic box!");
+            Program.PrintLine( 100, "You prepaired yourself for the worst.. monsters.. traps.. You have no idea what too expect.");
             Program.PrintLine( 100, "Press a key to continue..");
 
             Console.ReadKey();
@@ -168,19 +184,35 @@ namespace TextAdventureCS
             room.SetDiscription(". {0} You walk into a big empty room with three doors.\nWitch one do you choose....");
             room.AddLocations(ref map, 0, 0);
 
-            room = new Room("hall", 5, 3);
-            room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 1", true, 0, "Discription"), 1, 0);
-            room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 2);
+            room = new Room("start", 3, 3);
+            room.SetBlockage(new Door("door 2", true, 2, "Discription: Wow, this is impressive.. but it is creepy too, let's start this adventure!"), 1, 2);
             room.AddItem(new Key("door 2", true), 2, 2);
             room.SetDiscription(". {0} this is the startings room\n");
             room.AddLocations(ref map, 0, 3);
 
-            room = new Room("end", 3, 3);
+            room = new Room("End", 3, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 0);
-            room.SetDiscription(". {0} this is the startings room\n");
+            room.SetBlockage(new Door("door 3", true, 0, "Discription: Pff, i hope this is the last room, atleast the room is called end. So i guess this is the end."), 1, 0);
+            room.SetDiscription("This is the {0} room!\n");
             room.AddLocations(ref map, 0, 6);
+
+            room = new Room("Danger 2.0", 3, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 4", true, 0, "Discription: ehm.. That other room looked creepy, but this is even worse! why did i ever start this.."), 1, 0);
+            room.SetDiscription("This is the {0} room!\n");
+            room.AddLocations(ref map, 3, 6);
+
+            room = new Room("Riddle", 3, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 5", true, 0, "Discription: Wow! what is this?! there are riddles everywhere!"), 1, 0);
+            room.SetDiscription("This is the {0} room 2\n");
+            room.AddLocations(ref map, 6, 6);
+
+            room = new Room("Danger!", 3, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 6", true, 0, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 1, 0);
+            room.SetDiscription("This is the {0} room \n");
+            room.AddLocations(ref map, 3, 0);
 
             map.SetRoom(" ");
         }
@@ -320,7 +352,7 @@ namespace TextAdventureCS
             {
                 for (int i = 0; i < menu.Count(); i++)
                 {
-                    Program.PrintLine( 100,"{0} - {1}", i + 1, menu[i]);
+                    Program.PrintLine( 0,"{0} - {1}", i + 1, menu[i]);
                 }
                 Program.PrintLine( 50,"Please enter your choice: 1 - {0}" ,menu.Count());
                 input = Console.ReadLine();
