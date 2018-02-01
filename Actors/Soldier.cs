@@ -5,17 +5,16 @@ using System.Text;
 
 namespace TextAdventureCS.Actors
 {
-    class Investigator : Player
+    class Soldier : Player
     {
-
-        public Investigator(string name, int maxHealth) : base(name, maxHealth)
+        public Soldier(string name, int maxHealth) : base(name, maxHealth)
         {
 
         }
 
         public override void TakeHit(int damage)
         {
-            health -= damage;
+            health -= damage * 9 / 10;
         }
     }
 }

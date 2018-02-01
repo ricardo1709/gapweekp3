@@ -135,6 +135,7 @@ namespace TextAdventureCS
             Room room = new Room("Starting room", 3, 3);
             room.SetEnclosed(true);
             room.SetBlockage(new Door("door 1", true, 2, "Discription"), 1, 2);
+            room.SetBlockage(new WallDiscription("", true, 0), 0, 0);
             room.AddItem(new Key("door 1", true), 1, 1);
             room.SetDiscription(". {0} You walk into a big empty room with three doors.\nWitch one do you choose....");
             room.AddLocations(ref map, 0, 0);
@@ -160,14 +161,34 @@ namespace TextAdventureCS
         static void Start(ref Map map, ref Player player)
         {
             List<string> menuItems = new List<string>();
-            int choice;
+            int choice = 0;
+            Random rdm = new Random();
+
 
             // Refactored by Michiel and Alex
             do
             {
-                 
+
                 Console.Clear();
                 map.GetLocation().Description(ref map);
+                if (menuItems.Count != 0) {
+                    if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(0).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_EAST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(1).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_SOUTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(2).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_WEST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(3).GetDiscription(ref map));
+                    }
+                }
                 choice = ShowMenu(map, ref menuItems);
 
                 if ( choice != menuItems.Count() )
@@ -193,24 +214,7 @@ namespace TextAdventureCS
                     {
                         map.GetLocation().GetBlockage(3).OnPlayerInteraction(ref player, ref map);
                     }
-
-                    if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(0).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_EAST))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(1).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_SOUTH))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(2).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_WEST))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(3).GetDiscription(ref map));
-                    }
-
+                    
                     switch ( menuItems[choice] )
                     {
                         case ACTION_SEARCH:
@@ -222,11 +226,29 @@ namespace TextAdventureCS
                         break;
 
                         case ACTION_FIGHT:
-                            // Add code for fighting here
+                            map.GetLocation().GetEnemy().TakeHit(rdm.Next(10, 20));
+                            if (map.GetLocation().GetEnemy().GetHealth() > 0)
+                            {
+                                player.TakeHit(rdm.Next(5, 20));
+                                if (player.GetHealth() <= 0)
+                                {
+                                    Console.ReadLine();
+                                    Quit();
+                                }
+                            }
+                            else
+                            {
+                                Program.PrintLine(100, "You have won from you enemy");
+                                map.GetLocation().GetItems().Add(map.GetLocation().GetEnemy().Loot().GetName(), map.GetLocation().GetEnemy().Loot());
+                                map.GetLocation().SetEnemy(null);
+                            }
+                                
                         break;
 
                         case ACTION_RUN:
-                            // Add code for running here
+                            Program.PrintLine(100, "You shouldn't have runned away from your enemy");
+                            Console.ReadLine();
+                            Quit();
                         break;
                     }
                 }
@@ -260,6 +282,7 @@ namespace TextAdventureCS
             }
             if (map.GetLocation().HasEnemy())
             {
+                menu.Clear();
                 menu.Add( ACTION_FIGHT );
                 menu.Add( ACTION_RUN );
             }
