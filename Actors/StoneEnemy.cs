@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using TextAdventureCS.Items;
+
 namespace TextAdventureCS.Actors
 {
-    class Investigator : Player
+    class StoneEnemy : Actor
     {
-
-        public Investigator(string name, int maxHealth) : base(name, maxHealth)
+        public StoneEnemy(string name, int maxHealth) : base(name, maxHealth)
         {
 
         }
@@ -16,6 +17,11 @@ namespace TextAdventureCS.Actors
         public override void TakeHit(int damage)
         {
             health -= damage;
+        }
+
+        public override Objects Loot()
+        {
+            return new PowerStone("powerstone", true);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 
 using TextAdventureCS.Blockades;
 using TextAdventureCS.Items;
+using TextAdventureCS.Actors;
 
 
 // Originally made by Sietse Dijks
@@ -58,44 +59,73 @@ namespace TextAdventureCS
             int xstartpos = 0;
             int ystartpos = 4;
             // Welcome the player
-          
-            Program.PrintLine( 100, "Welcome to a textbased adventure");
-            Program.PrintLine( 100, "Before you can start your journey, you will have to enter your name.");
+
+            Program.PrintLine(100, "Welcome to a textbased adventure");
+            Program.PrintLine(100, "Before you can start your journey, you will have to enter your name.");
 
             string name = null;
             string input = null;
 
             // Check for the correct name
             // Refactored from do - while to improve readability by Michiel and Alex
-            while(input != "Y") 
+            while (input != "Y")
             {
-                if( input == null || input == "N" )
+                if (input == null || input == "N")
                 {
                     Program.PrintLine(100, "Please enter your name and press enter:");
                     name = Console.ReadLine();
                 }
 
-                Program.PrintLine  (100,"Your name is {0}",name);
-                Program.PrintLine( 100, "Is this correct? (y/n)");
+                Program.PrintLine(100, "Your name is {0}", name);
+                Program.PrintLine(100, "Is this correct? (y/n)");
                 input = Console.ReadLine();
                 input = input.ToUpper();
-            }           
+            }
+
+            // Let the player choose between different types 
+            int choice = 0;
+            string userInput;
+            
+            do
+            {
+                Program.PrintLine(100, "Which character would you like too be?");
+                Program.PrintLine(100,  "1. Investigator");
+                Program.PrintLine(100,  "2. Soldier");
+
+                switch (choice)
+                {
+                    case 1:
+                        Program.PrintLine(100,"Investigator");
+                        userInput = Console.ReadLine();
+                        break;
+                    case 2:
+                        Program.PrintLine(100, "Soldier");
+                        userInput = Console.ReadLine();
+                        break;
+                    case 3:
+                    default:
+                        break;
+                }
+            } while (choice == 0);
+
 
             // Make the player
             Player player = new Player(name, 100);
-            //Welcome the player
-            
-#if !DEBUG
-                Welcome(ref player);
-#endif
 
-#if DEBUG
-            player.PickupItem(new Key("door 2", true));
-            player.PickupItem(new Key("door 3", true));
-            player.PickupItem(new Key("door 4", true));
-            player.PickupItem(new Key("door 5", true));
-            player.PickupItem(new Key("door 6", true));
-#endif
+            //Welcome the player
+
+            #if !DEBUG
+                Welcome(ref player);
+            #endif
+
+            #if DEBUG
+              player.PickupItem(new Key("door 2", true));
+              player.PickupItem(new Key("door 3", true));
+              player.PickupItem(new Key("door 4", true));
+              player.PickupItem(new Key("door 5", true));
+              player.PickupItem(new Key("door 6", true));
+            #endif
+
             // Initialize the map
             Map map = new Map(mapwidth, mapheight, xstartpos, ystartpos);
             // Put the locations with their items on the map
@@ -149,6 +179,7 @@ namespace TextAdventureCS
             Room room = new Room("Starting room", 3, 3);
             room.SetEnclosed(true);
             room.SetBlockage(new Door("door 1", true, 2, "Discription"), 1, 2);
+            room.SetBlockage(new WallDiscription("", true, 0), 0, 0);
             room.AddItem(new Key("door 1", true), 1, 1);
             room.SetDiscription(". {0} You walk into a big empty room with three doors.\nWitch one do you choose....");
             room.AddLocations(ref map, 0, 0);
@@ -189,14 +220,33 @@ namespace TextAdventureCS
         static void Start(ref Map map, ref Player player)
         {
             List<string> menuItems = new List<string>();
-            int choice;
+            int choice = 0;
+            Random rdm = new Random();
 
             // Refactored by Michiel and Alex
             do
             {
-                 
+
                 Console.Clear();
                 map.GetLocation().Description(ref map);
+                if (menuItems.Count != 0) {
+                    if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(0).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_EAST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(1).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_SOUTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(2).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_WEST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(3).GetDiscription(ref map));
+                    }
+                }
                 choice = ShowMenu(map, ref menuItems);
 
                 if ( choice != menuItems.Count() )
@@ -222,24 +272,7 @@ namespace TextAdventureCS
                     {
                         map.GetLocation().GetBlockage(3).OnPlayerInteraction(ref player, ref map);
                     }
-
-                    if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(0).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_EAST))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(1).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_SOUTH))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(2).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_WEST))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(3).GetDiscription(ref map));
-                    }
-
+                    
                     switch ( menuItems[choice] )
                     {
                         case ACTION_SEARCH:
@@ -251,11 +284,29 @@ namespace TextAdventureCS
                         break;
 
                         case ACTION_FIGHT:
-                            // Add code for fighting here
+                            map.GetLocation().GetEnemy().TakeHit(rdm.Next(10, 20));
+                            if (map.GetLocation().GetEnemy().GetHealth() > 0)
+                            {
+                                player.TakeHit(rdm.Next(5, 20));
+                                if (player.GetHealth() <= 0)
+                                {
+                                    Console.ReadLine();
+                                    Quit();
+                                }
+                            }
+                            else
+                            {
+                                Program.PrintLine(100, "You have won from you enemy");
+                                map.GetLocation().GetItems().Add(map.GetLocation().GetEnemy().Loot().GetName(), map.GetLocation().GetEnemy().Loot());
+                                map.GetLocation().SetEnemy(null);
+                            }
+                                
                         break;
 
                         case ACTION_RUN:
-                            // Add code for running here
+                            Program.PrintLine(100, "You shouldn't have runned away from your enemy");
+                            Console.ReadLine();
+                            Quit();
                         break;
                     }
                 }
@@ -289,6 +340,7 @@ namespace TextAdventureCS
             }
             if (map.GetLocation().HasEnemy())
             {
+                menu.Clear();
                 menu.Add( ACTION_FIGHT );
                 menu.Add( ACTION_RUN );
             }

@@ -45,9 +45,13 @@
   <ItemGroup>
     <Compile Include="Actor.cs" />
     <Compile Include="Actors\Investigator.cs" />
+    <Compile Include="Actors\Soldier.cs" />
+    <Compile Include="Actors\StoneEnemy.cs" />
     <Compile Include="Blockades\Door.cs" />
     <Compile Include="Blockades\None.cs" />
+    <Compile Include="Blockades\WallDiscription.cs" />
     <Compile Include="Items\Key.cs" />
+    <Compile Include="Items\PowerStone.cs" />
     <Compile Include="Locations\TempleRoom.cs" />
     <Compile Include="Room.cs" />
     <Compile Include="Blockades\Wall.cs" />
