@@ -34,5 +34,7 @@ namespace TextAdventureCS
         {
             return health;
         }
+
+        public abstract Objects Loot();
     }
 }
