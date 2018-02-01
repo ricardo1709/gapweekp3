@@ -56,7 +56,7 @@ namespace TextAdventureCS
             // General initializations to prevent magic numbers
             int mapwidth = 11;
             int mapheight = 11;
-            int xstartpos = 5;
+            int xstartpos = 0;
             int ystartpos = 4;
             // Welcome the player
 
@@ -189,6 +189,7 @@ namespace TextAdventureCS
 
             room = new Room("start", 6, 3);
             room.SetEnclosed(true);
+
             room.SetBlockage(new Door("door 1", true, 0, "Discription"), 1, 0);
             room.SetBlockage(new Door("door 2", true, 2, "Discription: Wow, this is impressive.. but it is creepy too, let's start this adventure!"), 1, 2);
             room.SetBlockage(new Door("door 3", true, 2, "Discription: Pff, i hope this is the last room, atleast the room is called end. So i guess this is the end."), 4, 2);
