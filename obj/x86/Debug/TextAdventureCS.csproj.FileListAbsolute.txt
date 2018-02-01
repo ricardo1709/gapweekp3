@@ -13,3 +13,9 @@ C:\Users\Sietse\Documents\Visual Studio 2013\Projects\TextAdventureCS_aanpassing
 C:\Users\Sietse\Documents\Visual Studio 2013\Projects\TextAdventureCS_aanpassingen_alex_michiel\obj\x86\Debug\TextAdventureCS.csprojResolveAssemblyReference.cache
 C:\Users\Sietse\Documents\Visual Studio 2013\Projects\TextAdventureCS_aanpassingen_alex_michiel\bin\Debug\TextAdventureCS.exe
 C:\Users\Sietse\Documents\Visual Studio 2013\Projects\TextAdventureCS_aanpassingen_alex_michiel\bin\Debug\TextAdventureCS.pdb
+C:\Users\Isabella\Desktop\Gap_Week\Game\bin\Debug\TextAdventureCS.exe
+C:\Users\Isabella\Desktop\Gap_Week\Game\bin\Debug\TextAdventureCS.pdb
+C:\Users\Isabella\Desktop\Gap_Week\Game\obj\x86\Debug\TextAdventureCS.csprojResolveAssemblyReference.cache
+C:\Users\Isabella\Desktop\Gap_Week\Game\obj\x86\Debug\TextAdventureCS.csproj.CoreCompileInputs.cache
+C:\Users\Isabella\Desktop\Gap_Week\Game\obj\x86\Debug\TextAdventureCS.exe
+C:\Users\Isabella\Desktop\Gap_Week\Game\obj\x86\Debug\TextAdventureCS.pdb

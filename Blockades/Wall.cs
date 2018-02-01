@@ -14,10 +14,7 @@ namespace TextAdventureCS.Blockades
 
         }
 
-        public override bool CanGetDiscription()
-        {
-            throw new NotImplementedException();
-        }
+        public override bool CanGetDiscription() => false;
 
         public override bool CanPlayerInteraction()
         {

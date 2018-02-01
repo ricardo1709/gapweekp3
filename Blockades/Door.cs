@@ -14,7 +14,7 @@ namespace TextAdventureCS.Blockades
 
         public Door(string name, bool isSolid, int direction, string discription) : base(name, isSolid, direction)
         {
-            this.discription = discription
+            this.discription = discription;
         }
 
         public override bool CanGetDiscription()
