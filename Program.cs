@@ -6,6 +6,7 @@ using System.Text;
 
 using TextAdventureCS.Blockades;
 using TextAdventureCS.Items;
+using TextAdventureCS.Actors;
 
 
 // Originally made by Sietse Dijks
@@ -58,35 +59,63 @@ namespace TextAdventureCS
             int xstartpos = 0;
             int ystartpos = 0;
             // Welcome the player
-          
-            Program.PrintLine( 100, "Welcome to a textbased adventure");
-            Program.PrintLine( 100, "Before you can start your journey, you will have to enter your name.");
+
+            Program.PrintLine(100, "Welcome to a textbased adventure");
+            Program.PrintLine(100, "Before you can start your journey, you will have to enter your name.");
 
             string name = null;
             string input = null;
 
             // Check for the correct name
             // Refactored from do - while to improve readability by Michiel and Alex
-            while(input != "Y") 
+            while (input != "Y")
             {
-                if( input == null || input == "N" )
+                if (input == null || input == "N")
                 {
                     Program.PrintLine(100, "Please enter your name and press enter:");
                     name = Console.ReadLine();
                 }
 
-                Program.PrintLine  (100,"Your name is {0}",name);
-                Program.PrintLine( 100, "Is this correct? (y/n)");
+                Program.PrintLine(100, "Your name is {0}", name);
+                Program.PrintLine(100, "Is this correct? (y/n)");
                 input = Console.ReadLine();
                 input = input.ToUpper();
-            }           
+            }
+
+            // Let the player choose between different types 
+            int choice = 0;
+            string userInput;
+            
+            do
+            {
+                Program.PrintLine(100, "Which character would you like too be?");
+                Program.PrintLine(100,  "1. Investigator");
+                Program.PrintLine(100,  "2. Soldier");
+
+                switch (choice)
+                {
+                    case 1:
+                        Program.PrintLine(100,"Investigator");
+                        userInput = Console.ReadLine();
+                        break;
+                    case 2:
+                        Program.PrintLine(100, "Soldier");
+                        userInput = Console.ReadLine();
+                        break;
+                    case 3:
+                    default:
+                        break;
+                }
+            } while (choice == 0);
+
 
             // Make the player
             Player player = new Player(name, 100);
+
             //Welcome the player
-            #if !DEBUG
+                #if !DEBUG
                 Welcome(ref player);
-            #endif
+                #endif
             // Initialize the map
             Map map = new Map(mapwidth, mapheight, xstartpos, ystartpos);
             // Put the locations with their items on the map
@@ -161,7 +190,6 @@ namespace TextAdventureCS
             List<string> menuItems = new List<string>();
             int choice = 0;
             Random rdm = new Random();
-
 
             // Refactored by Michiel and Alex
             do
