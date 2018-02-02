@@ -34,7 +34,7 @@ namespace TextAdventureCS.Blockades
 
         public override void OnPlayerInteraction(ref Player player, ref Map map)
         {
-            if (player.HasObject("Key of " + name))
+            if (player.HasObject("Key of " + name) && player.HasObject("powerstone"))
             {
                 player.UseItem("Key of " + name);
                 this.isSolid = false;
@@ -67,6 +67,9 @@ namespace TextAdventureCS.Blockades
                 
                 door.isSolid = false;
                 
+            }
+            else
+            {
             }
 
         }

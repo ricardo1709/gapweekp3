@@ -85,7 +85,7 @@ namespace TextAdventureCS
                     // West
                     if (this.blockades[i, j, 3] != null)
                     {
-                        blockades[3] = this.blockades[i, j, 0];
+                        blockades[3] = this.blockades[i, j, 3];
                     }
                     else if (i == 0 && isEnclosed)
                         blockades[3] = new Wall("wall", true, 3);
