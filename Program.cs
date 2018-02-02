@@ -224,6 +224,7 @@ namespace TextAdventureCS
 
             room = new Room("Danger!", 3, 3);
             room.SetEnclosed(true);
+            room.AddItem(new MagicStrawberry_s("magic strawberry's", true), 1, 1);
             room.SetBlockage(new Door("door 6", true, 3, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 0, 1);
             room.SetDiscription("This is the {0} room \n");
             room.AddLocations(ref map, 6, 3);

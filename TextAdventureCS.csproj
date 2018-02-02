@@ -51,6 +51,7 @@
     <Compile Include="Blockades\None.cs" />
     <Compile Include="Blockades\WallDiscription.cs" />
     <Compile Include="Items\Key.cs" />
+    <Compile Include="Items\MagicStrawberry%27s.cs" />
     <Compile Include="Items\PowerStone.cs" />
     <Compile Include="Locations\TempleRoom.cs" />
     <Compile Include="Room.cs" />
