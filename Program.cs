@@ -216,14 +216,15 @@ namespace TextAdventureCS
             room.SetEnemy(new StoneEnemy("stone enemy", 30), 2, 1);
             room.AddLocations(ref map, 3, 6);
 
-            /*room = new Room("Riddle", 3, 3);
+            room = new Room("Riddle", 3, 3);
             room.SetEnclosed(true);
             room.SetBlockage(new Door("door 5", true, 0, "Discription: Wow! what is this?! there are riddles everywhere!"), 1, 2);
             room.SetDiscription("This is the {0} room 2\n");
-            room.AddLocations(ref map, 6, 6);*/
+            room.AddLocations(ref map, 6, 6);
 
             room = new Room("Danger!", 3, 3);
             room.SetEnclosed(true);
+            room.AddItem(new MagicStrawberry_s("magic strawberry's", true), 1, 1);
             room.SetBlockage(new Door("door 5", true, 3, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 0, 1);
             room.SetDiscription("This is the {0} room \n");
             room.AddLocations(ref map, 6, 3);
