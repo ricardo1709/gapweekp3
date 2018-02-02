@@ -56,8 +56,8 @@ namespace TextAdventureCS
             // General initializations to prevent magic numbers
             int mapwidth = 11;
             int mapheight = 11;
-            int xstartpos = 0;
-            int ystartpos = 4;
+            int xstartpos = 1;
+            int ystartpos = 1;
             // Welcome the player
 
             Program.PrintLine(100, "Welcome to a textbased adventure");
@@ -191,12 +191,12 @@ namespace TextAdventureCS
 
             room = new Room("start", 6, 3);
             room.SetEnclosed(true);
-
             room.SetBlockage(new Door("door 1", true, 0, "Discription"), 1, 0);
             room.SetBlockage(new Door("door 2", true, 2, "Discription: Wow, this is impressive.. but it is creepy too, let's start this adventure!"), 1, 2);
-            room.SetBlockage(new Door("door 3", true, 2, "Discription: Pff, i hope this is the last room, atleast the room is called end. So i guess this is the end."), 4, 2);
+            room.SetBlockage(new Door("door 3", true, 2, "Discription: Pff, i hope this is the last room, atleast the room is called end. So i guess this is the end."), 1, 2);
             room.SetBlockage(new Door("door 4", true, 0, "Discription: ehm.. That other room looked creepy, but this is even worse! why did i ever start this.."), 4, 0);
-            room.SetBlockage(new Door("door 5", true, 1, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 5, 1);
+            room.SetBlockage(new Door("door 3", true, 2, "Discription: Pff, i hope this is the last room, atleast the room is called end. So i guess this is the end."), 4, 2);
+            room.SetBlockage(new Door("door 6", true, 1, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 5, 1);
             //room.SetBlockage(new Door("door 6", true, 3, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 0, 1)
             room.AddItem(new Key("door 2", true), 2, 2);
             room.SetDiscription("{0} .You walk into a big empty room with three doors.\nWitch one do you choose....");
@@ -204,7 +204,7 @@ namespace TextAdventureCS
 
             room = new Room("", 3, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 2", true, 0, "Discription: Wow, this is impressive.. but it is creepy too, let's start this adventure!"), 1, 0);
+            room.SetBlockage(new Door("door 2", true, 2, "Discription: Wow, this is impressive.. but it is creepy too, let's start this adventure!"), 1, 2);
             room.SetDiscription("Wow, this is impressive.. but it is creepy too, let's start this adventure!");
             room.AddLocations(ref map, 0, 6);
 
@@ -218,14 +218,14 @@ namespace TextAdventureCS
 
             room = new Room("Riddle", 3, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 5", true, 0, "Discription: Wow! what is this?! there are riddles everywhere!"), 1, 2);
+            room.SetBlockage(new Door("door 5", true, 0, "Discription: Wow! what is this?! there are riddles everywhere!"), 1, 0);
             room.SetDiscription("This is the {0} room 2\n");
             room.AddLocations(ref map, 6, 6);
 
             room = new Room("Danger!", 3, 3);
             room.SetEnclosed(true);
             room.AddItem(new MagicStrawberry_s("magic strawberry's", true), 1, 1);
-            room.SetBlockage(new Door("door 5", true, 3, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 0, 1);
+            room.SetBlockage(new Door("door 6", true, 3, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 0, 1);
             room.SetDiscription("This is the {0} room \n");
             room.AddLocations(ref map, 6, 3);
 
@@ -245,6 +245,7 @@ namespace TextAdventureCS
             {
 
                 Console.Clear();
+                
                 map.GetLocation().Description(ref map);
                 if (menuItems.Count != 0) {
                     if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
