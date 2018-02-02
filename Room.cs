@@ -15,6 +15,7 @@ namespace TextAdventureCS
         private string name;
         private Blockade[,,] blockades;
         private Objects[,] items;
+        private Actor[,] actors;
         private bool isEnclosed;
 
         private string discription;
@@ -26,6 +27,7 @@ namespace TextAdventureCS
             this.width = width;
             this.blockades = new Blockade[width, height, 4];
             this.items = new Objects[width, height];
+            this.actors = new Actor[width, height];
         }
 
         public void AddItem(Objects item, int x, int y)
@@ -83,7 +85,7 @@ namespace TextAdventureCS
                     // West
                     if (this.blockades[i, j, 3] != null)
                     {
-                        blockades[3] = this.blockades[i, j, 0];
+                        blockades[3] = this.blockades[i, j, 3];
                     }
                     else if (i == 0 && isEnclosed)
                         blockades[3] = new Wall("wall", true, 3);
@@ -92,7 +94,10 @@ namespace TextAdventureCS
 
                     Location location = new TempleRoom(this.name, blockades, discription);
                     if(this.items[i,j] != null)
-                    location.GetItems().Add(this.items[i,j].GetName(), this.items[i,j]);
+                        location.GetItems().Add(this.items[i,j].GetName(), this.items[i,j]);
+
+                    if (this.actors[i, j] != null)
+                        location.SetEnemy(actors[i, j]);
                     map.AddLocation(location, i + x, j + y);
 
                 }
@@ -102,6 +107,11 @@ namespace TextAdventureCS
         public void SetEnclosed(bool isEnclosed)
         {
             this.isEnclosed = isEnclosed;
+        }
+
+        public void SetEnemy(Actor actor, int x, int y)
+        {
+            this.actors[x, y] = actor;
         }
     }
 }

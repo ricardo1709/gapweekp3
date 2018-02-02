@@ -57,7 +57,7 @@ namespace TextAdventureCS
             int mapwidth = 11;
             int mapheight = 11;
             int xstartpos = 0;
-            int ystartpos = 0;
+            int ystartpos = 4;
             // Welcome the player
 
             Program.PrintLine(100, "Welcome to a textbased adventure");
@@ -85,37 +85,52 @@ namespace TextAdventureCS
             // Let the player choose between different types 
             int choice = 0;
             string userInput;
-            
+
+            Player player = null;
             do
             {
-                Program.PrintLine(100, "Which character would you like too be?");
-                Program.PrintLine(100,  "1. Investigator");
-                Program.PrintLine(100,  "2. Soldier");
+                do
+                {
+                    Program.PrintLine(100, "Which character would you like too be?");
+                    Program.PrintLine(100,  "1. Investigator");
+                    Program.PrintLine(100,  "2. Soldier");
+                    userInput = Console.ReadLine();
+                } while (!int.TryParse(userInput, out choice) || choice <= 0 || choice > 2);
 
                 switch (choice)
                 {
                     case 1:
-                        Program.PrintLine(100,"Investigator");
-                        userInput = Console.ReadLine();
+
+                        player = new Investigator(name, 100);
                         break;
                     case 2:
-                        Program.PrintLine(100, "Soldier");
-                        userInput = Console.ReadLine();
+                        player = new Soldier(name, 200);
                         break;
                     case 3:
                     default:
                         break;
                 }
-            } while (choice == 0);
+
+            } while (player == null);
 
 
             // Make the player
-            Player player = new Player(name, 100);
+
 
             //Welcome the player
-                #if !DEBUG
+
+#if !DEBUG
                 Welcome(ref player);
-                #endif
+#endif
+
+#if DEBUG
+            player.PickupItem(new PowerStone("powerstone", true));
+              player.PickupItem(new Key("door 2", true));
+              player.PickupItem(new Key("door 3", true));
+              player.PickupItem(new Key("door 4", true));
+              player.PickupItem(new Key("door 5", true));
+              player.PickupItem(new Key("door 6", true));
+            #endif
             // Initialize the map
             Map map = new Map(mapwidth, mapheight, xstartpos, ystartpos);
             // Put the locations with their items on the map
@@ -129,20 +144,26 @@ namespace TextAdventureCS
         static void Welcome(ref Player player)
         {
             Console.Clear();
-            Program.PrintLine( 100, "Welcome to the world of Flightwood");
-            Program.PrintLine( 100, "You just woke up from a very long sleep.");
-            Program.PrintLine( 100, "You can't really remember anything but your name.");
-            Program.PrintLine("Which by the way is ", 100, false, 0, 64);
+
+            Program.PrintLine( 100, "Welcome to the world of Radius");
+            Program.PrintLine( 100, "Storyline: You are a big fan of strawberries, your life goal is to eat as many stawberries as possible..");
+            Program.PrintLine( 100, "You heard that there is an temple in the middle of the \nRadius forest. In that temple is a box with magic stawberries");
+            Program.PrintLine(100, "These magic strawberries are special.. if you eat one a new one will spawn back into the box.");
+            Program.PrintLine(100, "That means.. YOU HAVE AN UNLIMITED SUPPLY OF STRAWBERRIES!");
+            Program.PrintLine(100, "But first you have to find that box.. \ngood luck");            
             Program.PrintLine(10, player.GetName());
+            Console.WriteLine("Ready? press enter...");
+            Console.ReadKey();
+            Console.Clear();
 
             // Added newline to improve readability.
-            Console.ReadKey();
+            
 
             player.ShowInventory();
 
-            Program.PrintLine( 100, "You look around you and realise that you are in a forest.");
-            Program.PrintLine( 100, "In the distance you hear the howl of an animal.");
-            Program.PrintLine( 100, "You slowly come to your senses and choose to go.");
+            Program.PrintLine( 100, "You're excited to go into the temple!");
+            Program.PrintLine( 100, "But scared too.. but you just want that magic box!");
+            Program.PrintLine( 100, "You prepaired yourself for the worst.. monsters.. traps.. You have no idea what too expect.");
             Program.PrintLine( 100, "Press a key to continue..");
 
             Console.ReadKey();
@@ -163,23 +184,49 @@ namespace TextAdventureCS
             Room room = new Room("Starting room", 3, 3);
             room.SetEnclosed(true);
             room.SetBlockage(new Door("door 1", true, 2, "Discription"), 1, 2);
+            room.SetBlockage(new WallDiscription("", true, 0, ""), 0, 0);
             room.AddItem(new Key("door 1", true), 1, 1);
-            room.SetDiscription(". {0} You walk into a big empty room with three doors.\nWitch one do you choose....");
+            room.SetDiscription("{0}. This room will start whit helping you to play.");
             room.AddLocations(ref map, 0, 0);
 
-            room = new Room("hall", 5, 3);
+            room = new Room("start", 6, 3);
             room.SetEnclosed(true);
+
             room.SetBlockage(new Door("door 1", true, 0, "Discription"), 1, 0);
-            room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 2);
+            room.SetBlockage(new Door("door 2", true, 2, "Discription: Wow, this is impressive.. but it is creepy too, let's start this adventure!"), 1, 2);
+            room.SetBlockage(new Door("door 3", true, 2, "Discription: Pff, i hope this is the last room, atleast the room is called end. So i guess this is the end."), 4, 2);
+            room.SetBlockage(new Door("door 4", true, 0, "Discription: ehm.. That other room looked creepy, but this is even worse! why did i ever start this.."), 4, 0);
+            room.SetBlockage(new Door("door 5", true, 1, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 5, 1);
+            //room.SetBlockage(new Door("door 6", true, 3, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 0, 1)
             room.AddItem(new Key("door 2", true), 2, 2);
-            room.SetDiscription(". {0} this is the startings room\n");
+            room.SetDiscription("{0} .You walk into a big empty room with three doors.\nWitch one do you choose....");
             room.AddLocations(ref map, 0, 3);
 
-            room = new Room("end", 3, 3);
+            room = new Room("", 3, 3);
             room.SetEnclosed(true);
-            room.SetBlockage(new Door("door 2", true, 2, "Discription"), 1, 0);
-            room.SetDiscription(". {0} this is the startings room\n");
+            room.SetBlockage(new Door("door 2", true, 0, "Discription: Wow, this is impressive.. but it is creepy too, let's start this adventure!"), 1, 0);
+            room.SetDiscription("Wow, this is impressive.. but it is creepy too, let's start this adventure!");
             room.AddLocations(ref map, 0, 6);
+
+            room = new Room("Danger 2.0", 3, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 3", true, 0, "Discription: Wow, this is impressive.. but it is creepy too, let's start this adventure!"), 1, 0);
+            room.SetDiscription("This is the {0} room!\n");
+            room.SetEnemy(new StoneEnemy("stone enemy", 30), 0, 1);
+            room.SetEnemy(new StoneEnemy("stone enemy", 30), 2, 1);
+            room.AddLocations(ref map, 3, 6);
+
+            /*room = new Room("Riddle", 3, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 5", true, 0, "Discription: Wow! what is this?! there are riddles everywhere!"), 1, 2);
+            room.SetDiscription("This is the {0} room 2\n");
+            room.AddLocations(ref map, 6, 6);*/
+
+            room = new Room("Danger!", 3, 3);
+            room.SetEnclosed(true);
+            room.SetBlockage(new Door("door 5", true, 3, "Discription: brrr it looks creepy in here.. I better watch out for monsters or traps.."), 0, 1);
+            room.SetDiscription("This is the {0} room \n");
+            room.AddLocations(ref map, 6, 3);
 
             map.SetRoom(" ");
         }
@@ -187,15 +234,35 @@ namespace TextAdventureCS
         static void Start(ref Map map, ref Player player)
         {
             List<string> menuItems = new List<string>();
-            int choice;
-            
+
+            int choice = 0;
+            Random rdm = new Random();
+
 
             // Refactored by Michiel and Alex
             do
             {
-                 
+
                 Console.Clear();
                 map.GetLocation().Description(ref map);
+                if (menuItems.Count != 0) {
+                    if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(0).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_EAST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(1).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_SOUTH))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(2).GetDiscription(ref map));
+                    }
+                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_WEST))
+                    {
+                        Program.PrintLine(100, map.GetLocation().GetBlockage(3).GetDiscription(ref map));
+                    }
+                }
                 choice = ShowMenu(map, ref menuItems);
 
                 if ( choice != menuItems.Count() )
@@ -221,24 +288,7 @@ namespace TextAdventureCS
                     {
                         map.GetLocation().GetBlockage(3).OnPlayerInteraction(ref player, ref map);
                     }
-
-                    if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_NORTH))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(0).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_EAST))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(1).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_SOUTH))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(2).GetDiscription(ref map));
-                    }
-                    else if (menuItems[choice].StartsWith(ACTION_DISCRIPTION_WEST))
-                    {
-                        Program.PrintLine(100, map.GetLocation().GetBlockage(3).GetDiscription(ref map));
-                    }
-
+                    
                     switch ( menuItems[choice] )
                     {
                         case ACTION_SEARCH:
@@ -250,11 +300,33 @@ namespace TextAdventureCS
                         break;
 
                         case ACTION_FIGHT:
-                            // Add code for fighting here
+                            map.GetLocation().GetEnemy().TakeHit(rdm.Next(10, 20));
+                            if (map.GetLocation().GetEnemy().GetHealth() > 0)
+                            {
+                                player.TakeHit(rdm.Next(5, 20));
+                                if (player.GetHealth() <= 0)
+                                {
+                                    Console.ReadLine();
+                                    Quit();
+                                }
+                            }
+                            else
+                            {
+                                Program.PrintLine(100, "You have won from you enemy");
+                                if (!map.GetLocation().GetItems().ContainsKey(map.GetLocation().GetEnemy().Loot().GetName()))
+                                {
+                                    map.GetLocation().GetItems().Add(map.GetLocation().GetEnemy().Loot().GetName(), map.GetLocation().GetEnemy().Loot());
+                                }
+                               
+                                map.GetLocation().SetEnemy(null);
+                            }
+                                
                         break;
 
                         case ACTION_RUN:
-                            // Add code for running here
+                            Program.PrintLine(100, "You shouldn't have runned away from your enemy");
+                            Console.ReadLine();
+                            Quit();
                         break;
                     }
                 }
@@ -288,6 +360,7 @@ namespace TextAdventureCS
             }
             if (map.GetLocation().HasEnemy())
             {
+                menu.Clear();
                 menu.Add( ACTION_FIGHT );
                 menu.Add( ACTION_RUN );
             }
@@ -299,7 +372,7 @@ namespace TextAdventureCS
             {
                 for (int i = 0; i < menu.Count(); i++)
                 {
-                    Program.PrintLine( 100,"{0} - {1}", i + 1, menu[i]);
+                    Program.PrintLine( 0,"{0} - {1}", i + 1, menu[i]);
                 }
                 Program.PrintLine( 50,"Please enter your choice: 1 - {0}" ,menu.Count());
                 input = Console.ReadLine();
