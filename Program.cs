@@ -85,6 +85,7 @@ namespace TextAdventureCS
             // Let the player choose between different types 
             int choice = 0;
             string userInput;
+
             Player player = null;
             do
             {
@@ -99,6 +100,7 @@ namespace TextAdventureCS
                 switch (choice)
                 {
                     case 1:
+
                         player = new Investigator(name, 100);
                         break;
                     case 2:
@@ -108,6 +110,7 @@ namespace TextAdventureCS
                     default:
                         break;
                 }
+
             } while (player == null);
 
 
@@ -128,7 +131,6 @@ namespace TextAdventureCS
               player.PickupItem(new Key("door 5", true));
               player.PickupItem(new Key("door 6", true));
             #endif
-
             // Initialize the map
             Map map = new Map(mapwidth, mapheight, xstartpos, ystartpos);
             // Put the locations with their items on the map
@@ -232,8 +234,10 @@ namespace TextAdventureCS
         static void Start(ref Map map, ref Player player)
         {
             List<string> menuItems = new List<string>();
+
             int choice = 0;
             Random rdm = new Random();
+
 
             // Refactored by Michiel and Alex
             do
